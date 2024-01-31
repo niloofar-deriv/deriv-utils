@@ -6,14 +6,16 @@
     "main": "index.js",
     "scripts": {
         "build": "tsc && vite build",
-        "test": "vitest"
+        "test": "vitest",
+        "test:coverage": "vitest run --coverage"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "@types/node": "^20.11.10",
-        "happy-dom": "^13.3.5",
+        "@types/node": "^20.11.13",
+        "@vitest/coverage-v8": "^1.2.2",
+        "happy-dom": "^13.3.8",
         "typescript": "^5.3.3",
         "vite": "^5.0.12",
         "vite-plugin-dts": "^3.7.2",
