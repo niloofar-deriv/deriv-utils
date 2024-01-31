@@ -40,16 +40,18 @@ export const filterSearchParams = (searchParamsToRemove: string[]) => {
 };
 
 export const getOauthURL = () => {
-    return `https://oauth.deriv.com/oauth2/authorize?app_id=${getAppId()}&l=EN&brand=deriv`;
+    const language = window.localStorage.getItem(LocalStorageConstants.i18nLanguage) ?? "EN";
+
+    return `https://oauth.deriv.com/oauth2/authorize?app_id=${getAppId()}&l=${language}&brand=${
+        AppIDConstants.appBrand
+    }`;
 };
 
 export const getWebsocketURL = () => {
     const serverURL = getServerURL();
-    const appId = getAppId();
     const language = window.localStorage.getItem(LocalStorageConstants.i18nLanguage) ?? "EN";
-    const brand = "deriv";
 
-    return `wss://${serverURL}/websockets/v3?app_id=${appId}&l=${language}&brand=${brand}`;
+    return `wss://${serverURL}/websockets/v3?app_id=${getAppId()}&l=${language}&brand=${AppIDConstants.appBrand}`;
 };
 
 export const getServerURL = () => {

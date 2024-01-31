@@ -17,3 +17,5 @@ export const domainAppId = {
 
 /** You can insert your own App Id here */
 export const userAppId = 0;
+
+export const appBrand = "deriv";
