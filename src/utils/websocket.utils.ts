@@ -12,14 +12,13 @@ export const getEnvironmentFromLoginid = (loginid: string | null) => {
 };
 
 export const getAppId = () => {
-    if (AppIDConstants.userAppId) return AppIDConstants.userAppId;
-
     const configAppId = window.localStorage.getItem(LocalStorageConstants.configAppId);
     if (configAppId) return configAppId;
 
     const currentDomain = window.location.hostname;
+
     const domainAppId = AppIDConstants.domainAppId[currentDomain as keyof typeof AppIDConstants.domainAppId];
     if (domainAppId) return domainAppId;
 
-    return 36300;
+    return "36300";
 };

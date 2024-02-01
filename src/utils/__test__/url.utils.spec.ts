@@ -157,3 +157,23 @@ describe("URLUtils.getOauthURL", () => {
         expect(output).toBe("https://oauth.deriv.com/oauth2/authorize?app_id=420&l=EN&brand=deriv");
     });
 });
+
+describe("URLUtils.getWebsocketURL", () => {
+    test("should return correct websocket URL", () => {
+        window.localStorage.getItem = vitest.fn((key: string) => {
+            if (key === LocalStorageConstants.configServerURL) {
+                return "ws.derivws.com";
+            }
+            if (key === LocalStorageConstants.configAppId) {
+                return "777";
+            }
+            if (key === LocalStorageConstants.i18nLanguage) {
+                return "FR";
+            }
+            return "";
+        });
+
+        const output = URLUtils.getWebsocketURL();
+        expect(output).toBe("wss://ws.derivws.com/websockets/v3?app_id=777&l=FR&brand=deriv");
+    });
+});
