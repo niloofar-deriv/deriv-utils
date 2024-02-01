@@ -1,8 +1,7 @@
-import { describe, test, expect, vitest } from "vitest";
+import { describe, test, expect, vitest, beforeEach } from "vitest";
 import { WebSocketUtils } from "..";
 import { LocalStorageConstants } from "../..";
 import { getEnvironmentFromLoginid } from "../websocket.utils";
-import { beforeEach } from "node:test";
 
 function setLocation({ hostname = "", pathname = "", search = "" }) {
     Object.defineProperty(window, "location", {
@@ -14,6 +13,11 @@ function setLocation({ hostname = "", pathname = "", search = "" }) {
         },
     });
 }
+
+beforeEach(() => {
+    window.localStorage.getItem = vitest.fn();
+    setLocation({ hostname: "" });
+});
 
 describe("WebSocketUtils.getActiveLoginid", () => {
     test("should return first loginid from query params (acct1) if peresent", () => {
@@ -50,7 +54,6 @@ describe("WebSocketUtils.getActiveLoginid", () => {
 
     test("should return null if neither client.active_loginid or query params (acct1) is present", () => {
         setLocation({ search: "?acct2=CR1069&token2=a1-xbzn2&cur2=GBP" });
-        window.localStorage.getItem = vitest.fn();
 
         const output = WebSocketUtils.getActiveLoginid();
         expect(output).toBeNull();
@@ -86,7 +89,6 @@ describe("WebSocketUtils.getEnvironmentFromLoginid", () => {
 
 describe("WebSocketUtils.getAppId", () => {
     test("should return app id from config.app_id localstorage key", () => {
-        setLocation({ hostname: "" });
         window.localStorage.getItem = vitest.fn((key: string) => {
             if (key === LocalStorageConstants.configAppId) {
                 return "18883";
@@ -100,7 +102,6 @@ describe("WebSocketUtils.getAppId", () => {
 
     test("should 16929 for app.deriv.com domain", () => {
         setLocation({ hostname: "app.deriv.com" });
-        window.localStorage.getItem = vitest.fn();
 
         const output = WebSocketUtils.getAppId();
         expect(output).toBe("16929");
@@ -108,7 +109,6 @@ describe("WebSocketUtils.getAppId", () => {
 
     test("should 16303 for staging-app.deriv.com domain", () => {
         setLocation({ hostname: "staging-app.deriv.com" });
-        window.localStorage.getItem = vitest.fn();
 
         const output = WebSocketUtils.getAppId();
         expect(output).toBe("16303");
@@ -116,7 +116,6 @@ describe("WebSocketUtils.getAppId", () => {
 
     test("should 51072 for test-app.deriv.com domain", () => {
         setLocation({ hostname: "test-app.deriv.com" });
-        window.localStorage.getItem = vitest.fn();
 
         const output = WebSocketUtils.getAppId();
         expect(output).toBe("51072");
@@ -136,9 +135,6 @@ describe("WebSocketUtils.getAppId", () => {
     });
 
     test("should return 36300 app id by default if nothing is set", () => {
-        setLocation({ hostname: "" });
-        window.localStorage.getItem = vitest.fn();
-
         const output = WebSocketUtils.getAppId();
         expect(output).toBe("36300");
     });

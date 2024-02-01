@@ -1,4 +1,4 @@
-import { describe, test, expect, vitest } from "vitest";
+import { describe, test, expect, vitest, beforeEach } from "vitest";
 import { URLUtils } from "../index";
 import { LocalStorageConstants } from "../..";
 
@@ -11,6 +11,11 @@ function setSearchParam(queryString: string) {
         },
     });
 }
+
+beforeEach(() => {
+    window.localStorage.getItem = vitest.fn();
+    setSearchParam("");
+});
 
 describe("URLUtils.getLoginInfoFromURL", () => {
     test("should return correct data from url query params if present", () => {
@@ -36,7 +41,6 @@ describe("URLUtils.getLoginInfoFromURL", () => {
     });
 
     test("should return empty arrays if url query params is not present", () => {
-        setSearchParam("");
         const expected = {
             loginInfo: [],
             paramsToDelete: [],
