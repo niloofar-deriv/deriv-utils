@@ -1,19 +1,40 @@
 {
     "name": "@deriv/utils",
     "version": "0.0.1",
-    "type": "module",
     "description": "A utility library for Deriv web apps.",
-    "main": "index.js",
+    "author": "deriv",
+    "homepage": "https://deriv.com",
+    "keywords": [
+        "deriv",
+        "utils"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/deriv-com/deriv-utils.git"
+    },
+    "bugs": {
+        "url": "https://github.com/deriv-com/deriv-utils/issues"
+    },
+    "type": "module",
+    "main": "./dist/deriv-utils.umd.cjs",
+    "module": "./dist/deriv-utils.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/deriv-utils.js",
+            "require": "./dist/deriv-utils.umd.cjs"
+        }
+    },
+    "files": [
+        "dist"
+    ],
     "scripts": {
         "build": "tsc && vite build",
         "test": "vitest",
         "test:coverage": "vitest run --coverage"
     },
-    "keywords": [],
-    "author": "",
-    "license": "ISC",
     "devDependencies": {
-        "@types/node": "^20.11.13",
+        "@types/node": "^20.11.16",
         "@vitest/coverage-v8": "^1.2.2",
         "happy-dom": "^13.3.8",
         "typescript": "^5.3.3",
