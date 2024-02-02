@@ -49,6 +49,33 @@ describe("URLUtils.getLoginInfoFromURL", () => {
         expect(output).toStrictEqual(expected);
     });
 
+    test("should return only fully formed loginInfo", () => {
+        setSearchParam("?acct1=VRTC1069&cur1=USD&acct2=CR1069&token2=a1-xbzn2&cur2=GBP");
+        const expected = {
+            loginInfo: [
+                {
+                    loginid: "CR1069",
+                    token: "a1-xbzn2",
+                    currency: "GBP",
+                },
+            ],
+            paramsToDelete: ["acct1", "cur1", "acct2", "token2", "cur2"],
+        };
+
+        const output = URLUtils.getLoginInfoFromURL();
+        expect(output).toStrictEqual(expected);
+    });
+
+    test("should still delete params if query strings result in no valid loginInfo", () => {
+        setSearchParam("?acct1=VRTC1069&cur1=USD&acct2=CR1069&token2=a1-xbzn2");
+        const expected = {
+            loginInfo: [],
+            paramsToDelete: ["acct1", "cur1", "acct2", "token2"],
+        };
+        const output = URLUtils.getLoginInfoFromURL();
+        expect(output).toStrictEqual(expected);
+    });
+
     test("should return empty arrays if non matching query param is present", () => {
         setSearchParam("?something=not?&related=to&the=code");
         const expected = {

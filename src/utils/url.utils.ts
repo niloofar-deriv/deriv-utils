@@ -28,7 +28,11 @@ export const getLoginInfoFromURL = () => {
         if (/acct/.test(key) || /token/.test(key) || /cur/.test(key)) paramsToDelete.push(key);
     }
 
-    return { loginInfo: loginInfo as AccountInfo[], paramsToDelete };
+    const filteredLoginInfo = loginInfo.filter((login) =>
+        ["loginid", "token", "currency"].every((k) => Object.keys(login).includes(k))
+    );
+
+    return { loginInfo: filteredLoginInfo, paramsToDelete };
 };
 
 export const filterSearchParams = (searchParamsToRemove: string[]) => {
