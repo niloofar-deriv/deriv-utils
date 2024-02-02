@@ -1,5 +1,6 @@
 {
-    "name": "@deriv/utils",
+    "name": "@deriv-com/utils",
+    "private": false,
     "version": "0.0.1",
     "description": "A utility library for Deriv web apps.",
     "author": "deriv",
@@ -30,8 +31,11 @@
     ],
     "scripts": {
         "build": "tsc && vite build",
-        "test": "vitest",
-        "test:coverage": "vitest run --coverage"
+        "test": "vitest run",
+        "test:dev": "vitest watch",
+        "test:coverage": "vitest run --coverage",
+        "prepare": "rm -rf ./dist && npm run build",
+        "prepublishOnly": "npm run test"
     },
     "devDependencies": {
         "@types/node": "^20.11.16",
