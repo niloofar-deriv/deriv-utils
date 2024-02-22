@@ -22,6 +22,15 @@ describe("PromiseUtils.createPromise", () => {
         expect(value).toBeUndefined();
     });
 
+    test("should resolve with the null value", async () => {
+        const { promise, resolve } = PromiseUtils.createPromise<number>();
+
+        resolve(null);
+
+        const value = await promise;
+        expect(value).toBeNull();
+    });
+
     test("should reject with correct rejection reason", async () => {
         const { promise, reject } = PromiseUtils.createPromise<string>();
         const rejectReason = "number is too high";
