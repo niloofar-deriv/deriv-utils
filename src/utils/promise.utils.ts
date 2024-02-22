@@ -10,10 +10,10 @@
  * - `reject`: A function that, when called with a reason, rejects the promise.
  */
 export const createPromise = <T>() => {
-    let deferredResolve!: (value: T) => void;
+    let deferredResolve!: (value?: T) => void;
     let deferredReject!: (reason?: unknown) => void;
 
-    const promise = new Promise<T>((resolve, reject) => {
+    const promise = new Promise<T | undefined>((resolve, reject) => {
         deferredResolve = resolve;
         deferredReject = reject;
     });
