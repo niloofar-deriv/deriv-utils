@@ -208,3 +208,38 @@ describe("URLUtils.getWebsocketURL", () => {
         expect(output).toBe("wss://ws.derivws.com/websockets/v3?app_id=777&l=FR&brand=deriv");
     });
 });
+
+describe("URLUtils.getURLParameters", () => {
+    beforeEach(() => {
+        Object.defineProperty(window, "location", {
+            value: { search: "?lang=ES&action=test" },
+        });
+    });
+
+    test("returns the value for lang key", () => {
+        const result = URLUtils.getURLParameters("lang");
+        expect(result).toBe("ES");
+    });
+
+    test("returns the value for action key", () => {
+        const result = URLUtils.getURLParameters("action");
+        expect(result).toBe("test");
+    });
+});
+
+describe("URLUtils.normalizePath", () => {
+    test("removes leading and trailing slashes", () => {
+        const result = URLUtils.normalizePath("/example/path/");
+        expect(result).toBe("example/path");
+    });
+
+    test("removes invalid characters", () => {
+        const result = URLUtils.normalizePath("inval!d_c#haracters");
+        expect(result).toBe("invald_characters");
+    });
+
+    test("handles an empty path", () => {
+        const result = URLUtils.normalizePath("");
+        expect(result).toBe("");
+    });
+});
