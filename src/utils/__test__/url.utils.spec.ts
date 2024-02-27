@@ -208,3 +208,94 @@ describe("URLUtils.getWebsocketURL", () => {
         expect(output).toBe("wss://ws.derivws.com/websockets/v3?app_id=777&l=FR&brand=deriv");
     });
 });
+
+describe("URLUtils.getQueryParameter", () => {
+    test("returns the value for the 'lang' key", () => {
+        Object.defineProperty(window, "location", {
+            value: { search: "?lang=ES" },
+        });
+
+        const URLParameters = URLUtils.getQueryParameter("lang");
+        expect(URLParameters).toBe("ES");
+    });
+
+    test("returns the value for the 'lang' key when we have multiple query parameters", () => {
+        Object.defineProperty(window, "location", {
+            value: { search: "?lang=ES&action=test" },
+        });
+
+        const URLParameters = URLUtils.getQueryParameter("lang");
+        expect(URLParameters).toBe("ES");
+    });
+
+    test("returns null when we don't have value for the passed key", () => {
+        Object.defineProperty(window, "location", {
+            value: { search: "?lang=ES" },
+        });
+
+        const URLParameters = URLUtils.getQueryParameter("action");
+        expect(URLParameters).toBeNull();
+    });
+});
+
+describe("URLUtils.normalizePath", () => {
+    test("removes leading and trailing slashes", () => {
+        const result = URLUtils.normalizePath("/example/path/");
+        expect(result).toBe("example/path");
+    });
+
+    test("removes invalid characters", () => {
+        const result = URLUtils.normalizePath("inval!d_characters");
+        expect(result).toBe("invald_characters");
+    });
+
+    test("handles an empty path", () => {
+        const result = URLUtils.normalizePath("");
+        expect(result).toBe("");
+    });
+});
+
+describe("URLUtils.getDerivStaticURL", () => {
+    test("getDerivStaticURL with path and default language(en)", () => {
+        const result = URLUtils.getDerivStaticURL("/p2p/");
+        expect(result).toBe("https://deriv.com/p2p");
+    });
+
+    test("getDerivStaticURL with path and Spanish language", () => {
+        localStorage.getItem = vitest.fn(() => "ES");
+
+        const result = URLUtils.getDerivStaticURL("/p2p/");
+        expect(result).toBe("https://deriv.com/es/p2p");
+    });
+
+    test("getDerivStaticURL with path and language that contains '_'", () => {
+        localStorage.getItem = vitest.fn(() => "ZH_TW");
+
+        const result = URLUtils.getDerivStaticURL("/p2p/");
+        expect(result).toBe("https://deriv.com/zh-tw/p2p");
+    });
+
+    test("getDerivStaticURL with path and isEU true", () => {
+        const result = URLUtils.getDerivStaticURL("/p2p/", { isEU: true });
+        expect(result).toBe("https://eu.deriv.com/p2p");
+    });
+
+    test("getDerivStaticURL with path and isDocument true and default language", () => {
+        const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", { isDocument: true });
+        expect(result).toBe("https://deriv.com/regulatory/deriv-com-ltd-membership.pdf");
+    });
+
+    test("getDerivStaticURL with path and isDocument true and Spanish language", () => {
+        localStorage.getItem = vitest.fn(() => "ES");
+        const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", { isDocument: true });
+        expect(result).toBe("https://deriv.com/regulatory/deriv-com-ltd-membership.pdf");
+    });
+
+    test("getDerivStaticURL with path and isEU true and isDocument true", () => {
+        const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", {
+            isDocument: true,
+            isEU: true,
+        });
+        expect(result).toBe("https://eu.deriv.com/regulatory/deriv-com-ltd-membership.pdf");
+    });
+});

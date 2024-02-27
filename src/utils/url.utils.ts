@@ -1,4 +1,5 @@
-import { LocalStorageConstants, AppIDConstants } from "../constants";
+import { LocalStorageConstants, AppIDConstants, URLConstants } from "../constants";
+import { QueryParameters } from "../constants/url.constants";
 import { getActiveLoginid, getAppId, getEnvironmentFromLoginid } from "./websocket.utils";
 
 /**
@@ -29,10 +30,16 @@ export const getLoginInfoFromURL = () => {
         const currencyRegex = key.match(/^cur(\d+)/);
 
         if (accountRegex) {
-            loginInfo[+accountRegex[1] - 1] = { ...(loginInfo[+accountRegex[1] - 1] || {}), loginid: value };
+            loginInfo[+accountRegex[1] - 1] = {
+                ...(loginInfo[+accountRegex[1] - 1] || {}),
+                loginid: value,
+            };
         }
         if (tokenRegex) {
-            loginInfo[+tokenRegex[1] - 1] = { ...(loginInfo[+tokenRegex[1] - 1] || {}), token: value };
+            loginInfo[+tokenRegex[1] - 1] = {
+                ...(loginInfo[+tokenRegex[1] - 1] || {}),
+                token: value,
+            };
         }
         if (currencyRegex) {
             loginInfo[+currencyRegex[1] - 1] = {
@@ -44,7 +51,7 @@ export const getLoginInfoFromURL = () => {
     }
 
     const filteredLoginInfo = loginInfo.filter((login) =>
-        ["loginid", "token", "currency"].every((k) => Object.keys(login).includes(k))
+        ["loginid", "token", "currency"].every((k) => Object.keys(login).includes(k)),
     ) as AccountInfo[];
 
     return { loginInfo: filteredLoginInfo, paramsToDelete };
@@ -103,4 +110,55 @@ export const getWebsocketURL = () => {
     const language = window.localStorage.getItem(LocalStorageConstants.i18nLanguage) ?? "EN";
 
     return `wss://${serverURL}/websockets/v3?app_id=${getAppId()}&l=${language}&brand=${AppIDConstants.appBrand}`;
+};
+
+/**
+ * Extracts query parameters from the URL by parsing the current window's URL search parameters for the specified key.
+ * It returns the query parameters associated with the given key.
+ *
+ * @param {QueryParameters} key - The query parameter we want. (you can see all of them in the URLConstants.queryParameters)
+ * @returns {string | null} A string containing query parameter associated with the given key.
+ */
+export const getQueryParameter = (key: QueryParameters) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    return searchParams.get(key);
+};
+
+/**
+ * Takes a 'URL path' as input and removes certain characters from the beginning and end of the path.
+ *
+ * Removes the following:
+ * - Any leading forward slash (/) at the beginning of the path.
+ * - Any trailing forward slash (/) at the end of the path.
+ * - Any characters that are not alphanumeric, hyphen, underscore, dot, forward slash, parentheses, or hash symbol.
+ *
+ * @param {string} path - The URL path that needs to be normalized.
+ * @returns {string} Returns the formatted path without the specified characters.
+ */
+export const normalizePath = (path: string) => path.replace(/(^\/|\/$|[^a-zA-Z0-9-_./()#])/g, "");
+
+type DerivStaticURLOptions = {
+    isDocument?: boolean;
+    isEU?: boolean;
+};
+
+/**
+ * Generates a static URL for the deriv.com project based on the provided parameters.
+ * This function is necessary because deriv.com URLs differ from those used in app.deriv.com
+ *
+ * @param {string} path - The path to be appended to the base URL.
+ * @param {DerivStaticURLOptions} [options] - Optional configuration for customising the Deriv Static URL, including:
+ *   - `isDocument`: Specifies whether the path represents a document.
+ *   - `isEU`: Specifies whether the URL should be generated for the EU production environment.
+ *
+ * @returns {string} Returns the formatted static URL.
+ */
+export const getDerivStaticURL = (path: string, options?: DerivStaticURLOptions) => {
+    const host = options?.isEU ? URLConstants.derivComProductionEU : URLConstants.derivComProduction;
+    let lang = localStorage.getItem(LocalStorageConstants.i18nLanguage)?.toLowerCase() ?? "en";
+
+    lang = lang === "en" ? "" : `/${lang.replace("_", "-")}`;
+
+    if (options?.isDocument) return `${host}/${normalizePath(path)}`;
+    return `${host}${lang}/${normalizePath(path)}`;
 };
