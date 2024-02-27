@@ -254,3 +254,45 @@ describe("URLUtils.normalizePath", () => {
         expect(result).toBe("");
     });
 });
+
+describe("URLUtils.getDerivStaticURL", () => {
+    test("getDerivStaticURL with path and default language(en)", () => {
+        const result = URLUtils.getDerivStaticURL("/p2p/");
+        expect(result).toBe("https://deriv.com/p2p");
+    });
+
+    test("getDerivStaticURL with path and Spanish language", () => {
+        localStorage.getItem = vitest.fn(() => "ES");
+
+        const result = URLUtils.getDerivStaticURL("/p2p/");
+        expect(result).toBe("https://deriv.com/es/p2p");
+    });
+
+    test("getDerivStaticURL with path and language that contains '_'", () => {
+        localStorage.getItem = vitest.fn(() => "ZH_TW");
+
+        const result = URLUtils.getDerivStaticURL("/p2p/");
+        expect(result).toBe("https://deriv.com/zh-tw/p2p");
+    });
+
+    test("getDerivStaticURL with path and isEU true", () => {
+        const result = URLUtils.getDerivStaticURL("/p2p/", false, true);
+        expect(result).toBe("https://eu.deriv.com/p2p");
+    });
+
+    test("getDerivStaticURL with path and isDocument true and default language", () => {
+        const result = URLUtils.getDerivStaticURL("/p2p/", true);
+        expect(result).toBe("https://deriv.com/p2p");
+    });
+
+    test("getDerivStaticURL with path and isDocument true and Spanish language", () => {
+        localStorage.getItem = vitest.fn(() => "ES");
+        const result = URLUtils.getDerivStaticURL("/p2p/", true);
+        expect(result).toBe("https://deriv.com/p2p");
+    });
+
+    test("getDerivStaticURL with path and isEU true and isDocument true", () => {
+        const result = URLUtils.getDerivStaticURL("/p2p/", true, true);
+        expect(result).toBe("https://eu.deriv.com/p2p");
+    });
+});
