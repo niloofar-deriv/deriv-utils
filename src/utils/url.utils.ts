@@ -119,7 +119,7 @@ export const getWebsocketURL = () => {
  * @param {QueryParameters} key - The query parameter we want. (you can see all of them in the URLConstants.queryParameters)
  * @returns {string | null} A string containing query parameter associated with the given key.
  */
-export const getURLParameters = (key: QueryParameters) => {
+export const getQueryParameter = (key: QueryParameters) => {
     const searchParams = new URLSearchParams(window.location.search);
     return searchParams.get(key);
 };

@@ -209,13 +209,13 @@ describe("URLUtils.getWebsocketURL", () => {
     });
 });
 
-describe("URLUtils.getURLParameters", () => {
+describe("URLUtils.getQueryParameter", () => {
     test("returns the value for the 'lang' key", () => {
         Object.defineProperty(window, "location", {
             value: { search: "?lang=ES" },
         });
 
-        const URLParameters = URLUtils.getURLParameters("lang");
+        const URLParameters = URLUtils.getQueryParameter("lang");
         expect(URLParameters).toBe("ES");
     });
 
@@ -224,7 +224,7 @@ describe("URLUtils.getURLParameters", () => {
             value: { search: "?lang=ES&action=test" },
         });
 
-        const URLParameters = URLUtils.getURLParameters("lang");
+        const URLParameters = URLUtils.getQueryParameter("lang");
         expect(URLParameters).toBe("ES");
     });
 
@@ -233,7 +233,7 @@ describe("URLUtils.getURLParameters", () => {
             value: { search: "?lang=ES" },
         });
 
-        const URLParameters = URLUtils.getURLParameters("action");
+        const URLParameters = URLUtils.getQueryParameter("action");
         expect(URLParameters).toBeNull();
     });
 });
