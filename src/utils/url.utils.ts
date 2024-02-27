@@ -2,11 +2,6 @@ import { LocalStorageConstants, AppIDConstants, URLConstants } from "../constant
 import { QueryParameters } from "../constants/url.constants";
 import { getActiveLoginid, getAppId, getEnvironmentFromLoginid } from "./websocket.utils";
 
-type DerivStaticURLOptions = {
-    isDocument?: boolean;
-    isEU?: boolean;
-};
-
 /**
  * Defines the structure for account information.
  * @typedef {Object} AccountInfo
@@ -141,6 +136,11 @@ export const getQueryParameter = (key: QueryParameters) => {
  * @returns {string} Returns the formatted path without the specified characters.
  */
 export const normalizePath = (path: string) => path.replace(/(^\/|\/$|[^a-zA-Z0-9-_./()#])/g, "");
+
+type DerivStaticURLOptions = {
+    isDocument?: boolean;
+    isEU?: boolean;
+};
 
 /**
  * Generates a static URL for the deriv.com project based on the provided parameters.
