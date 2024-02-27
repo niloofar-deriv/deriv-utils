@@ -1,5 +1,5 @@
 import { LocalStorageConstants, AppIDConstants, URLConstants } from "../constants";
-import { queryParameters } from "../constants/url.constants";
+import { QueryParameters } from "../constants/url.constants";
 import { getActiveLoginid, getAppId, getEnvironmentFromLoginid } from "./websocket.utils";
 
 /**
@@ -113,14 +113,15 @@ export const getWebsocketURL = () => {
 };
 
 /**
- * Extracts query parameters from the URL by parsing the current window's URL search parameters for the specified keys.
- * It returns the query parameters associated with the given keys.
+ * Extracts query parameters from the URL by parsing the current window's URL search parameters for the specified key.
+ * It returns the query parameters associated with the given key.
  *
- * @returns {Array<string | null>} An array of strings containing query parameters associated with the given key.
+ * @param {QueryParameters} key - The query parameter we want. (you can see all of them in the URLConstants.queryParameters)
+ * @returns {string | null} A string containing query parameter associated with the given key.
  */
-export const getURLParameters = (keys: queryParameters[]) => {
+export const getURLParameters = (key: QueryParameters) => {
     const searchParams = new URLSearchParams(window.location.search);
-    return keys.map((key) => searchParams.get(key));
+    return searchParams.get(key);
 };
 
 /**

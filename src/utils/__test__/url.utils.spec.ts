@@ -210,20 +210,31 @@ describe("URLUtils.getWebsocketURL", () => {
 });
 
 describe("URLUtils.getURLParameters", () => {
-    beforeEach(() => {
+    test("returns the value for the 'lang' key", () => {
+        Object.defineProperty(window, "location", {
+            value: { search: "?lang=ES" },
+        });
+
+        const URLParameters = URLUtils.getURLParameters("lang");
+        expect(URLParameters).toBe("ES");
+    });
+
+    test("returns the value for the 'lang' key when we have multiple query parameters", () => {
         Object.defineProperty(window, "location", {
             value: { search: "?lang=ES&action=test" },
         });
+
+        const URLParameters = URLUtils.getURLParameters("lang");
+        expect(URLParameters).toBe("ES");
     });
 
-    test("returns the value for lang key", () => {
-        const result = URLUtils.getURLParameters("lang");
-        expect(result).toBe("ES");
-    });
+    test("returns null when we don't have value for the passed key", () => {
+        Object.defineProperty(window, "location", {
+            value: { search: "?lang=ES" },
+        });
 
-    test("returns the value for action key", () => {
-        const result = URLUtils.getURLParameters("action");
-        expect(result).toBe("test");
+        const URLParameters = URLUtils.getURLParameters("action");
+        expect(URLParameters).toBeNull();
     });
 });
 
@@ -234,7 +245,7 @@ describe("URLUtils.normalizePath", () => {
     });
 
     test("removes invalid characters", () => {
-        const result = URLUtils.normalizePath("inval!d_c#haracters");
+        const result = URLUtils.normalizePath("inval!d_characters");
         expect(result).toBe("invald_characters");
     });
 

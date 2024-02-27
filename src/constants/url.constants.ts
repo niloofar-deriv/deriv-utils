@@ -27,4 +27,4 @@ export const queryParameters = {
     action: "action",
 } as const;
 
-export type queryParameters = keyof typeof queryParameters;
+export type QueryParameters = keyof typeof queryParameters;
