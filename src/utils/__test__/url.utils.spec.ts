@@ -276,23 +276,26 @@ describe("URLUtils.getDerivStaticURL", () => {
     });
 
     test("getDerivStaticURL with path and isEU true", () => {
-        const result = URLUtils.getDerivStaticURL("/p2p/", false, true);
+        const result = URLUtils.getDerivStaticURL("/p2p/", { isEU: true });
         expect(result).toBe("https://eu.deriv.com/p2p");
     });
 
     test("getDerivStaticURL with path and isDocument true and default language", () => {
-        const result = URLUtils.getDerivStaticURL("/p2p/", true);
-        expect(result).toBe("https://deriv.com/p2p");
+        const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", { isDocument: true });
+        expect(result).toBe("https://deriv.com/regulatory/deriv-com-ltd-membership.pdf");
     });
 
     test("getDerivStaticURL with path and isDocument true and Spanish language", () => {
         localStorage.getItem = vitest.fn(() => "ES");
-        const result = URLUtils.getDerivStaticURL("/p2p/", true);
-        expect(result).toBe("https://deriv.com/p2p");
+        const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", { isDocument: true });
+        expect(result).toBe("https://deriv.com/regulatory/deriv-com-ltd-membership.pdf");
     });
 
     test("getDerivStaticURL with path and isEU true and isDocument true", () => {
-        const result = URLUtils.getDerivStaticURL("/p2p/", true, true);
-        expect(result).toBe("https://eu.deriv.com/p2p");
+        const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", {
+            isDocument: true,
+            isEU: true,
+        });
+        expect(result).toBe("https://eu.deriv.com/regulatory/deriv-com-ltd-membership.pdf");
     });
 });

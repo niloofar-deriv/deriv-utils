@@ -2,6 +2,11 @@ import { LocalStorageConstants, AppIDConstants, URLConstants } from "../constant
 import { QueryParameters } from "../constants/url.constants";
 import { getActiveLoginid, getAppId, getEnvironmentFromLoginid } from "./websocket.utils";
 
+type DerivStaticURLOptions = {
+    isDocument?: boolean;
+    isEU?: boolean;
+};
+
 /**
  * Defines the structure for account information.
  * @typedef {Object} AccountInfo
@@ -142,16 +147,18 @@ export const normalizePath = (path: string) => path.replace(/(^\/|\/$|[^a-zA-Z0-
  * This function is necessary because deriv.com URLs differ from those used in app.deriv.com
  *
  * @param {string} path - The path to be appended to the base URL.
- * @param {boolean} [isDocument=false] - Specifies whether the path represents a document.
- * @param {boolean} [isEU=false] - Specifies whether the URL should be generated for the EU production environment.
+ * @param {DerivStaticURLOptions} [options] - Optional configuration for customising the Deriv Static URL, including:
+ *   - `isDocument`: Specifies whether the path represents a document.
+ *   - `isEU`: Specifies whether the URL should be generated for the EU production environment.
+ *
  * @returns {string} Returns the formatted static URL.
  */
-export const getDerivStaticURL = (path: string, isDocument?: boolean, isEU?: boolean) => {
-    const host = isEU ? URLConstants.derivComProductionEU : URLConstants.derivComProduction;
+export const getDerivStaticURL = (path: string, options?: DerivStaticURLOptions) => {
+    const host = options?.isEU ? URLConstants.derivComProductionEU : URLConstants.derivComProduction;
     let lang = localStorage.getItem(LocalStorageConstants.i18nLanguage)?.toLowerCase() ?? "en";
 
     lang = lang === "en" ? "" : `/${lang.replace("_", "-")}`;
 
-    if (isDocument) return `${host}/${normalizePath(path)}`;
+    if (options?.isDocument) return `${host}/${normalizePath(path)}`;
     return `${host}${lang}/${normalizePath(path)}`;
 };
