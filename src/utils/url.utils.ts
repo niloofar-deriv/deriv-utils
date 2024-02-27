@@ -145,23 +145,12 @@ export const normalizePath = (path: string) => path.replace(/(^\/|\/$|[^a-zA-Z0-
  * @param {boolean} [isEU=false] - Specifies whether the URL should be generated for the EU production environment.
  * @returns {string} Returns the formatted static URL.
  */
-export const generateDerivStaticURL = (path: string, isDocument?: boolean, isEU?: boolean) => {
-    const { derivComProductionEU, derivComProduction } = URLConstants;
-    const { i18nLanguage } = LocalStorageConstants;
+export const getDerivStaticURL = (path: string, isDocument?: boolean, isEU?: boolean) => {
+    const host = isEU ? URLConstants.derivComProductionEU : URLConstants.derivComProduction;
+    let lang = localStorage.getItem(LocalStorageConstants.i18nLanguage)?.toLowerCase() ?? "en";
 
-    const host = isEU ? derivComProductionEU : derivComProduction;
-    let lang = localStorage.getItem(i18nLanguage)?.toLowerCase();
-
-    if (lang && lang !== "en") {
-        lang = `/${lang}`;
-    } else lang = "";
+    lang = lang === "en" ? "" : `/${lang.replace("_", "-")}`;
 
     if (isDocument) return `${host}/${normalizePath(path)}`;
-
-    // Deriv.com uses '-' instead of '_' for language separation.
-    if (lang.includes("_")) {
-        lang = lang.replace("_", "-");
-    }
-
     return `${host}${lang}/${normalizePath(path)}`;
 };
