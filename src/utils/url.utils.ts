@@ -113,14 +113,14 @@ export const getWebsocketURL = () => {
 };
 
 /**
- * Extracts query parameters from the URL by parsing the current window's URL search parameters for the specified key.
- * It returns the query parameters associated with the given key.
+ * Extracts query parameters from the URL by parsing the current window's URL search parameters for the specified keys.
+ * It returns the query parameters associated with the given keys.
  *
- * @returns {string | null} A string containing query parameter associated with the given key.
+ * @returns {Array<string | null>} An array of strings containing query parameters associated with the given key.
  */
-export const getURLParameters = (key: queryParameters) => {
+export const getURLParameters = (keys: queryParameters[]) => {
     const searchParams = new URLSearchParams(window.location.search);
-    return searchParams.get(key);
+    return keys.map((key) => searchParams.get(key));
 };
 
 /**
