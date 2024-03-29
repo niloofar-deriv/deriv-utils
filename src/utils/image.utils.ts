@@ -2,11 +2,9 @@ const DEFAULT_IMAGE_WIDTH = 2560;
 const DEFAULT_IMAGE_QUALITY = 0.9;
 const WORD_SIZE = 4;
 
-declare global {
-    interface Blob {
-        lastModifiedDate?: number;
-        name?: string;
-    }
+interface IExtendedBlob extends Blob {
+    lastModifiedDate?: number;
+    name?: string;
 }
 
 type TCompressImageOption = {
@@ -37,9 +35,9 @@ export type TFileObject = {
  * @param {Object} [params.options] - Options for image compression.
  * @param {number} [params.options.maxWidth=DEFAULT_IMAGE_WIDTH] - The maximum width for the compressed image.
  * @param {number} [params.options.quality=DEFAULT_IMAGE_QUALITY] - The image quality (0 to 1) for compression.
- * @returns {Promise<Blob>} A Promise that resolves with the compressed image as a Blob.
+ * @returns {Promise<IExtendedBlob>} A Promise that resolves with the compressed image as a Blob.
  */
-export const compressImage = ({ src, filename, options }: TCompressImage): Promise<Blob> => {
+export const compressImage = ({ src, filename, options }: TCompressImage): Promise<IExtendedBlob> => {
     const { maxWidth = DEFAULT_IMAGE_WIDTH, quality = DEFAULT_IMAGE_QUALITY } = options || {};
 
     return new Promise((resolve, reject) => {
@@ -71,7 +69,7 @@ export const compressImage = ({ src, filename, options }: TCompressImage): Promi
                 (blob) => {
                     if (!blob) return;
                     const modified_filename = filename.replace(/\.[^/.]+$/, ".jpg");
-                    const file = new Blob([blob], { type: "image/jpeg" });
+                    const file: IExtendedBlob = new Blob([blob], { type: "image/jpeg" });
                     file.lastModifiedDate = Date.now();
                     file.name = modified_filename;
                     resolve(file);
@@ -133,8 +131,8 @@ export const compressImageFile = (file: File) => {
  * @param {num} number - The number to convert to Uint8Array.
  * @returns {Uint8Array} Uint8Array
  */
-export function numToUint8Array(num: number) {
-    const typedArray = new Uint8Array(WORD_SIZE);
+export function numToUint8Array(num: number, arraySize = WORD_SIZE) {
+    const typedArray = new Uint8Array(arraySize);
     const dv = new DataView(typedArray.buffer);
     dv.setUint32(0, num);
     return typedArray;
@@ -161,11 +159,11 @@ export const generateChunks = (binary: Uint8Array, { chunkSize = 16384 /* 16KB *
 
 /**
  * Read a file and return it as modified object with a buffer of the file contents.
- * @param {Blob} file - The file to read.
+ * @param {IExtendedBlob} file - The file to read.
  * @returns {Promise<TFileObject>} A Promise that resolves with the file as a TFileObject.
  *
  */
-export const readFile = (file: Blob) => {
+export const readFile = (file: IExtendedBlob) => {
     const fr = new FileReader();
     return new Promise<
         | TFileObject

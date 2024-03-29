@@ -1,4 +1,4 @@
-import { convertToBase64, isSupportedImageFormat } from "../file.utils";
+import { convertToBase64, isSupportedImageFormat } from "../image.utils";
 import { describe, test, expect } from "vitest";
 
 describe("convertToBase64()", () => {
