@@ -3,6 +3,7 @@
  * @param object Key value pair object
  * @returns Same object with sorted key
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const sortObjectByKeys = <T extends Record<string, any>>(object: T) => {
     return Object.keys(object)
         .sort()
