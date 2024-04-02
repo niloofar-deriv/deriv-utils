@@ -1,26 +1,26 @@
-name: "Run unit tests"
+name: Run Unit Tests
 on:
-    pull_request:
+  pull_request:
 
 jobs:
-    test:
-        runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
+    permissions:
+      # Required to checkout the code
+      contents: read
+      # Required to put a comment into the pull-request
+      pull-requests: write
 
-        permissions:
-            # Required to checkout the code
-            contents: read
-            # Required to put a comment into the pull-request
-            pull-requests: write
-
-        steps:
-            - uses: actions/checkout@v4
-            - name: "Install Node"
-              uses: actions/setup-node@v4
-              with:
-                  node-version: "20.x"
-            - name: "Install Deps"
-              run: npm install
-            - name: "Test"
-              run: npx vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json
-            - name: "Report Coverage"
-              uses: davelosert/vitest-coverage-report-action@v2
+    steps:
+      - name: Checkout
+        uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+      - name: Setup Node.js environment
+        uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
+        with:
+            node-version: "20.x"
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: npx vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json
+      - name: Report Coverage
+        uses: davelosert/vitest-coverage-report-action@v2
