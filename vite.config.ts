@@ -14,7 +14,7 @@ export default defineConfig({
     },
     test: {
         coverage: {
-            reporter: ["text", "json", "html", "lcov"],
+            reporter: "lcov",
             provider: "v8",
         },
         environment: "happy-dom",
