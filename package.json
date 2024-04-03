@@ -32,9 +32,9 @@
     ],
     "scripts": {
         "build": "tsc && vite build",
-        "test": "vitest run",
+        "test": "vitest",
         "test:dev": "vitest watch",
-        "test:coverage": "vitest run --coverage.enabled --coverage.provider=istanbul --coverage.reporter=json-summary --coverage.reporter=json",
+        "test:coverage": "vitest run --coverage.enabled --coverage.provider=v8 --coverage.reporter=json-summary --coverage.reporter=json",
         "prepare": "rm -rf ./dist && npm run build",
         "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
         "format": "npx prettier . --write",
