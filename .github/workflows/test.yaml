@@ -7,10 +7,8 @@ jobs:
   test:
     runs-on: ubuntu-latest
     permissions:
-      # Required to checkout the code
       contents: read
-      # Required to put a comment into the pull-request
-      pull-request: write
+      pull-requests: write
 
     steps:
       - name: Checkout
