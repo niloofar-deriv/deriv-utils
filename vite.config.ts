@@ -18,5 +18,6 @@ export default defineConfig({
             provider: "v8",
         },
         environment: "happy-dom",
+        exclude: ["**/*.{yml}"],
     },
 });
