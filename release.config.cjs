@@ -26,7 +26,7 @@ module.exports = {
                 releaseRules: [
                     {
                         type: "feat",
-                        release: "minor",
+                        release: "patch",
                     },
                     {
                         type: "build",

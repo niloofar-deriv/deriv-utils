@@ -1,7 +1,13 @@
 name: Build and Publish to NPM
 on:
     push:
-        branches: [main, development]
+        branches:
+          - master
+          - next
+          - next-major
+          - alpha
+          - beta
+          - development
 
 permissions:
     contents: read # for checkout
