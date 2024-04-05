@@ -9,9 +9,6 @@ on:
           - beta
           - development
 
-permissions:
-    contents: read # for checkout
-
 jobs:
     build_and_publish_npm:
         name: Release
