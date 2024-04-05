@@ -18,6 +18,6 @@ export default defineConfig({
             provider: "v8",
         },
         environment: "happy-dom",
-        exclude: ["**/*.{yml}", "**/*.config.{js,cjs,ts}", "node_modules"],
+        exclude: ["**/*.{yml}", "**/*.{config,utils}.*", "node_modules", "dist"],
     },
 });
