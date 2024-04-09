@@ -41,9 +41,12 @@
         "test:coverage": "vitest run --coverage.enabled",
         "test": "npm run lint && npm run prettier && npm run test:coverage",
         "prepublishOnly": "npm run test:vitest",
-        "prepublish": "npm run rebuild && npm run test"
+        "prepublish": "npm run rebuild && npm run test",
+        "commitlint": "commitlint --edit"
     },
     "devDependencies": {
+        "@commitlint/cli": "^19.2.1",
+        "@commitlint/config-conventional": "^19.1.0",
         "@semantic-release/changelog": "^6.0.3",
         "@semantic-release/github": "^10.0.2",
         "@semantic-release/npm": "^12.0.0",
