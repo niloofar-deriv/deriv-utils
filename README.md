@@ -1,5 +1,11 @@
 # Deriv Utility Library (@deriv/utils)
 
+[npm-image]: https://img.shields.io/npm/v/@deriv-com/utils.svg?style=flat-square
+[npm-url]: https://www.npmjs.com/package/@deriv-com/utils
+
+[![npm][npm-image]][npm-url]
+[![Coverage Status](https://coveralls.io/repos/github/deriv-com/deriv-utils/badge.svg)](https://coveralls.io/github/deriv-com/deriv-utils)
+
 ## Overview
 
 This utility library provides a comprehensive suite of utilities designed to support the development of web applications for Deriv. It encapsulates common functionalities such as handling constants, formatting, sorting, and more, with a focus on enhancing development efficiency and ensuring type safety.

@@ -14,7 +14,9 @@ export default defineConfig({
     },
     test: {
         coverage: {
-            provider: "istanbul",
+            reporter: "lcov",
+            provider: "v8",
+            exclude: ["**/*.{yml}", "**/*.{config,utils}.*", ".eslintrc.cjs", "node_modules", "dist"],
         },
         environment: "happy-dom",
     },
