@@ -1,3 +1,5 @@
+import { DocumentConstants } from "../constants";
+
 const DEFAULT_IMAGE_WIDTH = 2560;
 const DEFAULT_IMAGE_QUALITY = 0.9;
 const WORD_SIZE = 4;
@@ -105,7 +107,13 @@ export const convertToBase64 = (file: File): Promise<TBase64Image> => {
  * @param {string} filename - The filename to check for a supported image format.
  * @returns {boolean} True if the filename has a supported image format extension, false otherwise.
  */
-export const isSupportedImageFormat = (filename: string) => /\.(png|jpg|jpeg|gif|pdf)$/gi.test(filename ?? "");
+export const isSupportedImageFormat = (filename: string) => {
+    if (!filename) return false;
+
+    return DocumentConstants.supportedDocumentFormats.some((documentFormat) =>
+        filename.toUpperCase().endsWith(documentFormat),
+    );
+};
 
 /**
  * Convert image to base64 and compress an image file if it is a supported image format.
@@ -115,7 +123,7 @@ export const isSupportedImageFormat = (filename: string) => /\.(png|jpg|jpeg|gif
  */
 export const compressImageFile = (file: File) => {
     return new Promise<Blob>((resolve) => {
-        if (isSupportedImageFormat(file.type)) {
+        if (isSupportedImageFormat(file.name)) {
             convertToBase64(file).then((img) => {
                 compressImage(img).then(resolve);
             });
