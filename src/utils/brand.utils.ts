@@ -44,27 +44,24 @@ export const getBrandWebsiteName = (): string => {
  *
  * @returns {Object} Returns allowed platform name and icon.
  */
-type TPlatform = {
-    name: string;
-    icon: string;
-};
+
 type TPlatforms = {
-    ctrader: TPlatform;
-    trader: TPlatform;
-    dbot: TPlatform;
-    mt5: TPlatform;
-    dxtrade: TPlatform;
-    smarttrader: TPlatform;
-    bbot: TPlatform;
-    go: TPlatform;
+    ctrader: string;
+    trader: string;
+    dbot: string;
+    mt5: string;
+    dxtrade: string;
+    smarttrader: string;
+    bbot: string;
+    go: string;
 };
 
-export const getPlatformSettings = (platform_key: keyof TPlatforms): TPlatform => {
-    const allowed_brandConfig = brandConfig.platforms[platform_key];
+export const getPlatformName = (platform_key: keyof TPlatforms): string => {
+    let allowed_brandConfig = brandConfig.platforms[platform_key];
 
     if (!isDomainAllowed(window.location.host)) {
         // Remove all official platform logos if the app is hosted under unofficial domain
-        allowed_brandConfig.icon = "";
+        allowed_brandConfig = "";
     }
     return allowed_brandConfig;
 };

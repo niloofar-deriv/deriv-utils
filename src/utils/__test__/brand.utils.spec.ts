@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { getBrandWebsiteName, getLegalEntityName, getPlatformSettings, isDomainAllowed } from "../brand.utils";
+import { getBrandWebsiteName, getLegalEntityName, getPlatformName, isDomainAllowed } from "../brand.utils";
 
 describe("BrandUtils.isDomainAllowed", () => {
     test("localhost:8443 should be allowed", () => {
@@ -111,20 +111,17 @@ const brandConfig = {
     },
 };
 
-describe("BrandUtils.getPlatformSettings", () => {
+describe("BrandUtils.getPlatformName", () => {
     test("should return platform settings if domain is allowed", () => {
         window.location.host = "localhost:8443";
         // Mocking the platform key
         const platformKey = "trader";
 
         // Call the function
-        const platformSettings = getPlatformSettings(platformKey as keyof (typeof brandConfig)["platforms"]);
+        const platformSettings = getPlatformName(platformKey as keyof (typeof brandConfig)["platforms"]);
 
         // Assertion
-        expect(platformSettings).toEqual({
-            name: "Deriv Trader",
-            icon: "IcRebrandingDerivTrader",
-        });
+        expect(platformSettings).toEqual("Deriv Trader");
     });
 
     test("should return empty icon if domain is not allowed", () => {
@@ -135,10 +132,10 @@ describe("BrandUtils.getPlatformSettings", () => {
         window.location.host = "example.com";
 
         // Call the function
-        const platformSettings = getPlatformSettings(platformKey);
+        const platformSettings = getPlatformName(platformKey);
 
         // Assertion
-        expect(platformSettings.icon).toEqual("");
+        expect(platformSettings).toEqual("");
     });
 
     // Add more test cases as needed
