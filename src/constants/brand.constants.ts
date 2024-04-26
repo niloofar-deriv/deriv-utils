@@ -1,7 +1,7 @@
 export const brandConfig = {
-    brand_name: "Deriv",
-    domain_name: "Deriv.com",
-    legal_entities: {
+    brandName: "Deriv",
+    domainName: "Deriv.com",
+    legalEntities: {
         fx: "Deriv (FX) Ltd",
         maltainvest: "Deriv Investments (Europe) Limited",
         svg: "Deriv (SVG) LLC",

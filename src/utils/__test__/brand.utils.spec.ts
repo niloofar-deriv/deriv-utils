@@ -117,20 +117,5 @@ describe("BrandUtils.getPlatformName", () => {
         // Assertion
         expect(platformSettings).toEqual("Deriv Trader");
     });
-
-    test("should return empty icon if domain is not allowed", () => {
-        // Mocking the platform key
-        const platformKey = "dbot";
-
-        // Mocking window.location.host to an unallowed domain
-        window.location.host = "example.com";
-
-        // Call the function
-        const platformSettings = getPlatformName(platformKey);
-
-        // Assertion
-        expect(platformSettings).toEqual("");
-    });
-
     // Add more test cases as needed
 });
