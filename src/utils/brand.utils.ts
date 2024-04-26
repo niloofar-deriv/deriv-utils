@@ -11,20 +11,13 @@ export const isDomainAllowed = (domainName: string) => {
     return /^(((.*)\.)?(localhost:8443|pages.dev|binary\.(sx|com)|deriv.(com|me|be|dev)))$/.test(domainName);
 };
 
-export type TLandingCompany = {
-    fx: string;
-    maltainvest: string;
-    svg: string;
-    v: string;
-};
-
 /**
  * This function will check whether the landing company is available in our brand configuration
  *
- * @param {TLandingCompany} landingCompany - landingCompany will be the string and we will check if its available in legal entities.
+ * @param {legalEntities} landingCompany - landingCompany will be the string and we will check if its available in legal entities.
  * @returns {string} Returns name of landing company.
  */
-export const getLegalEntityName = (landingCompany: keyof TLandingCompany) => {
+export const getLegalEntityName = (landingCompany: keyof (typeof brandConfig)["legalEntities"]): string => {
     return brandConfig.legalEntities[landingCompany];
 };
 
@@ -45,18 +38,7 @@ export const getBrandWebsiteName = (): string => {
  * @returns {Object} Returns allowed platform name and icon.
  */
 
-export type TPlatforms = {
-    ctrader: string;
-    trader: string;
-    dbot: string;
-    mt5: string;
-    dxtrade: string;
-    smarttrader: string;
-    bbot: string;
-    go: string;
-};
-
-export const getPlatformName = (platformKey: keyof TPlatforms): string => {
+export const getPlatformName = (platformKey: keyof (typeof brandConfig)["platforms"]): string => {
     const allowedBrandConfig = brandConfig.platforms[platformKey];
 
     return allowedBrandConfig;
