@@ -100,14 +100,8 @@ describe("BrandUtils.getBrandWebsiteName", () => {
 // mock
 const brandConfig = {
     platforms: {
-        trader: {
-            name: "Deriv Trader",
-            icon: "IcRebrandingDerivTrader",
-        },
-        dbot: {
-            name: "Deriv Bot",
-            icon: "IcRebrandingDerivBot",
-        },
+        trader: "Deriv Trader",
+        dbot: "Deriv Bot",
     },
 };
 
