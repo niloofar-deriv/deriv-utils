@@ -1,0 +1,53 @@
+name: Build and Deploy Docs to Cloudflare Pages
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+    group: cloudflare-pages-deploy-docs-${{github.head_ref}}
+    cancel-in-progress: true
+
+jobs:
+    build_to_cloudflare_pages:
+        timeout-minutes: 30
+        runs-on: ubuntu-latest
+        permissions:
+          contents: read
+          deployments: write
+        steps:
+            - name: Checkout to branch
+              uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
+
+            - name: Setup node
+              uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8
+              with:
+                  node-version: 18.x
+                  cache: 'npm'
+
+
+            - name: Get cached dependencies
+              id: cache-npm
+              uses: actions/cache/restore@e12d46a63a90f2fae62d114769bbf2a179198b5c
+              with:
+                  path: node_modules
+                  key: npm-docs-${{ hashFiles('./utils-docs/package-lock.json') }}
+
+            - name: Install dependencies
+              if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+              run: cd utils-docs && npm ci
+
+            - name: Build docs
+              run: cd utils-docs && npm run build
+
+            - name: Publish to Cloudflare Pages
+                    uses: cloudflare/pages-action@v1
+                    with:
+                      apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+                      accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID}}
+                      projectName: deriv-utils
+                      directory: ./utils-docs/build
+                      gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+                      branch: master
+                      wranglerVersion: '3'
