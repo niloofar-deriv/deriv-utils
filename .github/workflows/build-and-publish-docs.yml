@@ -34,12 +34,12 @@ jobs:
                 path: ./utils-docs/node_modules
 
             - name: Install npm dependencies
-              if: steps.cache-node-modules.outputs.cache-hit == 'true'
+              if: ${{ steps.cache-node-modules.outputs.cache-hit == 'true' }}
               run: cd utils-docs && npm ci
               shell: bash
     
             - name: save_cache
-              if: steps.cache-node-modules.outputs.cache-hit != 'true'
+              if: ${{ steps.cache-node-modules.outputs.cache-hit != 'true' }}
               uses: actions/cache/save@e12d46a63a90f2fae62d114769bbf2a179198b5c
               with:
                 path: ./utils-docs/node_modules
