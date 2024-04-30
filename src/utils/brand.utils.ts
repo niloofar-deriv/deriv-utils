@@ -1,4 +1,4 @@
-import { brandConfig } from "../constants/brand.constants";
+import { brandConfig, landingCompanies, platforms } from "../constants/brand.constants";
 
 /**
  * This regex will match any official deriv production and testing domain names.
@@ -14,11 +14,11 @@ export const isDomainAllowed = (domainName: string) => {
 /**
  * This function will check whether the landing company is available in our brand configuration
  *
- * @param {legalEntities} landingCompany - landingCompany will be the string and we will check if its available in legal entities.
+ * @param {landingCompanies} landingCompany - landingCompany will be the string and we will check if its available in legal entities.
  * @returns {string} Returns name of landing company.
  */
-export const getLegalEntityName = (landingCompany: keyof (typeof brandConfig)["legalEntities"]): string => {
-    return brandConfig.legalEntities[landingCompany];
+export const getLegalEntityName = (landingCompany: keyof typeof landingCompanies): string => {
+    return landingCompanies[landingCompany];
 };
 
 /**
@@ -38,8 +38,8 @@ export const getBrandWebsiteName = (): string => {
  * @returns {Object} Returns allowed platform name and icon.
  */
 
-export const getPlatformName = (platformKey: keyof (typeof brandConfig)["platforms"]): string => {
-    const allowedBrandConfig = brandConfig.platforms[platformKey];
+export const getPlatformName = (platformKey: keyof typeof platforms): string => {
+    const allowedBrandConfig = platforms[platformKey];
 
     return allowedBrandConfig;
 };
