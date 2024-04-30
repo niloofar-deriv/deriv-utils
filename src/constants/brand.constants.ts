@@ -54,5 +54,5 @@ export const platforms = {
 } as const;
 
 export type BrandConfig = keyof typeof brandConfig;
-export type landingCompanies = keyof typeof landingCompanies;
-export type platforms = keyof typeof platforms;
+export type LandingCompanies = keyof typeof landingCompanies;
+export type Platforms = keyof typeof platforms;
