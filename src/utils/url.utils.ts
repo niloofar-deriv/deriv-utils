@@ -175,3 +175,14 @@ export const getDerivStaticURL = (path: string, options?: DerivStaticURLOptions)
     if (options?.isDocument) return `${host}/${normalizePath(path)}`;
     return `${host}${lang}/${normalizePath(path)}`;
 };
+
+/**
+ * This regex will match any official deriv production and testing domain names.
+ * Allowed deriv domains: localhost, binary.sx, binary.com, deriv.com, deriv.be, deriv.me and their subdomains.
+ *
+ * @param {string} domainName - The path to be match with regex.
+ * @returns {string} Returns the boolean whether its valid/allowed URL.
+ */
+export const isDomainAllowed = (domainName: string) => {
+    return /^(((.*)\.)?(localhost:8443|pages.dev|binary\.(sx|com)|deriv.(com|me|be|dev)))$/.test(domainName);
+};

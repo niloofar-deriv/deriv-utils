@@ -1,7 +1,7 @@
 import { describe, test, expect, vitest, beforeEach } from "vitest";
 import { URLUtils } from "../index";
 import { LocalStorageConstants } from "../..";
-import { LoginInfo } from "../url.utils";
+import { isDomainAllowed, LoginInfo } from "../url.utils";
 
 function setSearchParam(queryString: string) {
     Object.defineProperty(window, "location", {
@@ -355,5 +355,71 @@ describe("URLUtils.getDerivStaticURL", () => {
             isEU: true,
         });
         expect(result).toBe("https://eu.deriv.com/regulatory/deriv-com-ltd-membership.pdf");
+    });
+});
+
+describe("BrandUtils.isDomainAllowed", () => {
+    test("localhost:8443 should be allowed", () => {
+        expect(isDomainAllowed("localhost:8443")).toBe(true);
+    });
+
+    test("subdomain.localhost:8443 should be allowed", () => {
+        expect(isDomainAllowed("subdomain.localhost:8443")).toBe(true);
+    });
+
+    test("pages.dev should be allowed", () => {
+        expect(isDomainAllowed("pages.dev")).toBe(true);
+    });
+
+    test("subdomain.pages.dev should be allowed", () => {
+        expect(isDomainAllowed("subdomain.pages.dev")).toBe(true);
+    });
+
+    test("binary.sx should be allowed", () => {
+        expect(isDomainAllowed("binary.sx")).toBe(true);
+    });
+
+    test("binary.com should be allowed", () => {
+        expect(isDomainAllowed("binary.com")).toBe(true);
+    });
+
+    test("deriv.com should be allowed", () => {
+        expect(isDomainAllowed("deriv.com")).toBe(true);
+    });
+
+    test("deriv.me should be allowed", () => {
+        expect(isDomainAllowed("deriv.me")).toBe(true);
+    });
+
+    test("deriv.be should be allowed", () => {
+        expect(isDomainAllowed("deriv.be")).toBe(true);
+    });
+
+    test("deriv.dev should be allowed", () => {
+        expect(isDomainAllowed("deriv.dev")).toBe(true);
+    });
+
+    test("randomdomain.com should not be allowed", () => {
+        expect(isDomainAllowed("randomdomain.com")).toBe(false);
+    });
+
+    test("subdomain.randomdomain.com should not be allowed", () => {
+        expect(isDomainAllowed("subdomain.randomdomain.com")).toBe(false);
+    });
+
+    test("deriv.org should not be allowed", () => {
+        expect(isDomainAllowed("deriv.org")).toBe(false);
+    });
+
+    test("deriv.com.au should not be allowed", () => {
+        expect(isDomainAllowed("deriv.com.au")).toBe(false);
+    });
+
+    test("deriv.dev1 should not be allowed", () => {
+        expect(isDomainAllowed("deriv.dev1")).toBe(false);
+    });
+
+    test("binary.sxx should not be allowed", () => {
+        expect(isDomainAllowed("binary.sxx")).toBe(false);
     });
 });
