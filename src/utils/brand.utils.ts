@@ -1,4 +1,4 @@
-import { brandConfig, landingCompanies, platforms } from "../constants/brand.constants";
+import { brandConfig, LandingCompanies, landingCompanies, Platforms, platforms } from "../constants/brand.constants";
 
 /**
  * This function will check whether the landing company is available in our brand configuration
@@ -6,16 +6,16 @@ import { brandConfig, landingCompanies, platforms } from "../constants/brand.con
  * @param {LandingCompanies} landingCompany - landingCompany will be the string and we will check if its available in legal entities.
  * @returns {string} Returns name of landing company.
  */
-export const getLegalEntityName = (landingCompany: keyof typeof landingCompanies): string => {
+export const getLegalLandingCompany = (landingCompany: LandingCompanies) => {
     return landingCompanies[landingCompany];
 };
 
 /**
- * This function will give the domain name from brand config file.
+ * It returns the domain name of a brand's website from a configuration object called brandConfig.
  *
- * @returns {string} Returns name of Brand website name.
+ * @returns {string} Returns the domain name of a brand's website.
  */
-export const getBrandWebsiteName = (): string => {
+export const getBrandWebsiteName = () => {
     return brandConfig.domainName;
 };
 
@@ -27,8 +27,6 @@ export const getBrandWebsiteName = (): string => {
  * @returns {Object} Returns allowed platform name.
  */
 
-export const getPlatformName = (platformKey: keyof typeof platforms): string => {
-    const allowedBrandConfig = platforms[platformKey];
-
-    return allowedBrandConfig;
+export const getPlatformName = (platformKey: Platforms) => {
+    return platforms[platformKey];
 };

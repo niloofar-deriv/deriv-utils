@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # brand
 
-### getLegalEntityName
+### getLegalLandingCompany
 
 This function will check whether the landing company is available in our brand configuration
 
@@ -15,7 +15,7 @@ This will returns name of landing company as a `string`.
 
 ### getBrandWebsiteName
 
-This function will give the domain name from brand config file.
+It returns the domain name of a brand's website from a configuration object called brandConfig.
 
 This will return name of our brand as a `string`.
 
