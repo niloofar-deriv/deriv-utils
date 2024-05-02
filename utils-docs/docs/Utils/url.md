@@ -108,3 +108,12 @@ It returns the formatted static URL.
 
 -   `isDocument`: Specifies whether the path represents a document.
 -   `isEU`: Specifies whether the URL should be generated for the EU production environment.
+
+### isDomainAllowed
+
+This regex `(/^(((.*)\.)?(localhost:8443|pages.dev|binary\.(sx|com)|deriv.(com|me|be|dev)))$/)` will match any official deriv production and testing domain names.
+Allowed deriv domains: localhost, binary.sx, binary.com, deriv.com, deriv.be, deriv.me and their subdomains.
+
+#### Options
+
+`domainName[required]: string` - The path to be match with regex.

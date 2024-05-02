@@ -4,6 +4,7 @@ import * as DocumentConstants from "./document.constants";
 import * as LocalStorageConstants from "./localstorage.constants";
 import * as URLConstants from "./url.constants";
 import * as ValidationConstants from "./validation.constants";
+import * as BrandConstants from "./brand.constants";
 
 export {
     AppIDConstants,
@@ -12,4 +13,5 @@ export {
     LocalStorageConstants,
     URLConstants,
     ValidationConstants,
+    BrandConstants,
 };

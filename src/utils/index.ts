@@ -5,5 +5,6 @@ import * as ObjectUtils from "./object.utils";
 import * as PromiseUtils from "./promise.utils";
 import * as URLUtils from "./url.utils";
 import * as WebSocketUtils from "./websocket.utils";
+import * as BrandUtils from "./brand.utils";
 
-export { ImageUtils, FormatUtils, LocalStorageUtils, ObjectUtils, PromiseUtils, URLUtils, WebSocketUtils };
+export { ImageUtils, FormatUtils, LocalStorageUtils, ObjectUtils, PromiseUtils, URLUtils, WebSocketUtils, BrandUtils };
