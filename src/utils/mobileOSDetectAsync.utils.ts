@@ -40,7 +40,6 @@ type HighEntropyValues = {
 };
 
 /**
- * This function validates Huawei device codes from a string.
  * It checks if the input string contains any of the valid Huawei device codes.
  *
  * @param {string} inputString - The string to check for Huawei device codes.
@@ -55,8 +54,7 @@ function validateHuaweiCodes(inputString: string) {
 }
 
 /**
- * This function detects the mobile operating system asynchronously.
- * It uses the User-Agent string and the User-Agent Client Hints API to determine the OS.
+ * It uses the User-Agent string and the User-Agent Client Hints API to detects the mobile operating system asynchronously.
  *
  * @returns {Promise<string>} Returns a promise that resolves to the name of the detected mobile OS.
  */

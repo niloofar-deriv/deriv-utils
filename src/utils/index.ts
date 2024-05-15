@@ -6,7 +6,7 @@ import * as PromiseUtils from "./promise.utils";
 import * as URLUtils from "./url.utils";
 import * as WebSocketUtils from "./websocket.utils";
 import * as BrandUtils from "./brand.utils";
-import * as mobileOSDetectAsync from "./mobileOSDetectAsync.utils";
+import * as MobileOSDetectAsync from "./mobileOSDetectAsync.utils";
 
 export {
     ImageUtils,
@@ -17,5 +17,5 @@ export {
     URLUtils,
     WebSocketUtils,
     BrandUtils,
-    mobileOSDetectAsync,
+    MobileOSDetectAsync,
 };
