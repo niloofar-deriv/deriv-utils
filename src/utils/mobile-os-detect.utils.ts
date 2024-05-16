@@ -6,19 +6,21 @@ import { huaweiDevicesRegex } from "../constants/mobile-devices.constants";
  * It uses the User-Agent string and the User-Agent Client Hints API to determine the OS.
  */
 
-declare global {
-    interface Window {
-        MSStream?: {
-            msClose: () => void;
-            msDetachStream: () => void;
-            readonly type: string;
-        };
-        opera?: string;
-    }
-    interface Navigator {
-        userAgentData?: NavigatorUAData;
-    }
-}
+type ExtendedWindow = Window & {
+    // MSStream is specific to IE and Edge browsers
+    MSStream?: {
+        msClose: () => void;
+        msDetachStream: () => void;
+        readonly type: string;
+    };
+    // opera is specific to Opera browser
+    opera?: string;
+};
+
+type ExtendedNavigator = Navigator & {
+    // userAgentData is part of the User-Agent Client Hints API
+    userAgentData?: NavigatorUAData;
+};
 
 /**
  * Type representing the User-Agent Client Hints API.
@@ -55,7 +57,11 @@ const validateHuaweiCodes = (inputString: string) => {
  * @returns {Promise<string>} Returns a promise that resolves to the name of the detected mobile OS.
  */
 export const mobileOSDetectAsync = async () => {
-    const userAgent = navigator.userAgent ?? window.opera ?? "";
+    const extendedWindow = window as ExtendedWindow;
+    const extendedNavigator = navigator as ExtendedNavigator;
+
+    const userAgent = extendedNavigator.userAgent ?? extendedWindow.opera ?? "";
+
     // Windows Phone must come first because its UA also contains "Android"
     if (/windows phone/i.test(userAgent)) {
         return "Windows Phone";
@@ -64,8 +70,8 @@ export const mobileOSDetectAsync = async () => {
     if (/android/i.test(userAgent)) {
         // Check if navigator.userAgentData is available for modern browsers
         // userAgent only returns a string, while userAgentData returns an object with more detailed information
-        if (navigator?.userAgentData) {
-            const ua = await navigator.userAgentData.getHighEntropyValues(["model"]);
+        if (extendedNavigator.userAgentData) {
+            const ua = await extendedNavigator.userAgentData.getHighEntropyValues(["model"]);
             if (validateHuaweiCodes(ua?.model || "")) {
                 return "huawei";
             }
@@ -75,7 +81,7 @@ export const mobileOSDetectAsync = async () => {
         return "Android";
     }
 
-    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+    if (/iPad|iPhone|iPod/.test(userAgent) && !extendedWindow.MSStream) {
         return "iOS";
     }
 
