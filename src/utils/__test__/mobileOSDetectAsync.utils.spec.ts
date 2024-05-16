@@ -1,5 +1,5 @@
 import { describe, expect, test } from "vitest";
-import { mobileOSDetectAsync } from "../mobileOSDetectAsync.utils";
+import { mobileOSDetectAsync } from "../mobile-os-detect.utils";
 
 describe("mobileOSDetectAsync", () => {
     test('should return "Windows Phone" for Windows Phone user agent', async () => {

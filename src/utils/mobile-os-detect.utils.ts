@@ -45,9 +45,9 @@ type HighEntropyValues = {
  * @param {string} inputString - The string to check for Huawei device codes.
  * @returns {boolean} Returns true if the input string contains a valid Huawei device code, false otherwise.
  */
-function validateHuaweiCodes(inputString: string) {
+const validateHuaweiCodes = (inputString: string) => {
     return huaweiDevicesRegex.test(inputString);
-}
+};
 
 /**
  * It uses the User-Agent string and the User-Agent Client Hints API to detects the mobile operating system asynchronously.
