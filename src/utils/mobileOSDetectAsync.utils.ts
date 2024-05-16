@@ -48,7 +48,7 @@ type HighEntropyValues = {
 function validateHuaweiCodes(inputString: string) {
     const matches = inputString.match(huaweiDevicesRegex);
     if (matches) {
-        return matches.filter((code) => validCodes.has(code.toUpperCase())).length > 0;
+        return matches.filter((code) => validCodes.test(code.toUpperCase())).length > 0;
     }
     return false;
 }
@@ -67,6 +67,7 @@ export const mobileOSDetectAsync = async () => {
 
     if (/android/i.test(userAgent)) {
         // Check if navigator.userAgentData is available for modern browsers
+        // userAgent only returns a string, while userAgentData returns an object with more detailed information
         if (navigator?.userAgentData) {
             const ua = await navigator.userAgentData.getHighEntropyValues(["model"]);
             if (validateHuaweiCodes(ua?.model || "")) {
