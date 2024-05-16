@@ -1,12 +1,12 @@
 /**
  * @description
+ * @regex /\b([A-Z]{3}-)\b/gi
  * This pattern matches any string of three uppercase letters followed by a hyphen.
  * @example huaweiDevicesRegex.test("ALP-") // returns true
  */
 export const huaweiDevicesRegex = /\b([A-Z]{3}-)\b/gi;
 
 /**
- * @regex /\b([A-Z]{3}-)\b/gi
  * @description
  * This pattern matches any string that contains a sequence of three uppercase letters followed by a hyphen.
  * The sequence must be a word on its own (i.e., it must be surrounded by word boundaries).
