@@ -1,5 +1,5 @@
 import UAParser from "ua-parser-js";
-import { huaweiDevicesRegex, validCodes } from "../constants/mobile-devices.constants";
+import { huaweiDevicesRegex } from "../constants/mobile-devices.constants";
 
 /**
  * This file contains utility functions and types for detecting the mobile operating system.
@@ -46,11 +46,7 @@ type HighEntropyValues = {
  * @returns {boolean} Returns true if the input string contains a valid Huawei device code, false otherwise.
  */
 function validateHuaweiCodes(inputString: string) {
-    const matches = inputString.match(huaweiDevicesRegex);
-    if (matches) {
-        return matches.filter((code) => validCodes.test(code.toUpperCase())).length > 0;
-    }
-    return false;
+    return huaweiDevicesRegex.test(inputString);
 }
 
 /**
