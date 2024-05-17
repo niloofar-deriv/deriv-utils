@@ -52,7 +52,6 @@
         "@semantic-release/npm": "^12.0.0",
         "@semantic-release/release-notes-generator": "^13.0.0",
         "@types/node": "^20.11.18",
-        "@types/ua-parser-js": "^0.7.39",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
         "@vitest/coverage-istanbul": "^1.2.2",
         "@vitest/coverage-v8": "^1.2.2",
@@ -69,8 +68,5 @@
         "vite": "^5.1.2",
         "vite-plugin-dts": "^3.7.2",
         "vitest": "^1.2.2"
-    },
-    "dependencies": {
-        "ua-parser-js": "^1.0.37"
     }
 }

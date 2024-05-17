@@ -1,4 +1,3 @@
-import UAParser from "ua-parser-js";
 import { huaweiDevicesRegex } from "../constants/mobile-devices.constants";
 
 /**
@@ -87,10 +86,3 @@ export const mobileOSDetectAsync = async () => {
 
     return "unknown";
 };
-
-/**
- * This function uses the UAParser library to get the name of the operating system.
- *
- * @returns {string} Returns the name of the operating system.
- */
-export const getOSNameWithUAParser = () => UAParser().os.name;
