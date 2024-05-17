@@ -1,12 +1,16 @@
-# User Agent Parser Utility Documentation
+---
+sidebar_position: 2
+---
+
+# Mobile OS Detect
 
 This utility module provides functions to detect mobile operating systems and extract information from user agent strings.
 
-## `mobileOSDetectAsync`
+### `mobileOSDetectAsync`
 
 This function asynchronously detects the mobile operating system based on the user agent string.
 
-### Returns
+#### Returns
 
 -   `"Windows Phone"` if the user agent string indicates a Windows Phone device.
 -   `"huawei"` if the user agent string indicates a Huawei device running Android.
@@ -14,7 +18,7 @@ This function asynchronously detects the mobile operating system based on the us
 -   `"iOS"` if the user agent string indicates an iOS device (iPad, iPhone, or iPod).
 -   `"unknown"` if the mobile operating system cannot be determined.
 
-### Usage
+#### Usage
 
 ```typescript
 import { mobileOSDetectAsync } from "@deriv-com/utils";
