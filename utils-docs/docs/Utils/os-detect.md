@@ -2,7 +2,7 @@
 sidebar_position: 2
 ---
 
-# Mobile OS Detect
+# os-detect
 
 This utility module provides functions to detect mobile operating systems and extract information from user agent strings.
 
