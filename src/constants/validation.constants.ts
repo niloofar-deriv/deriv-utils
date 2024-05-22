@@ -147,14 +147,14 @@ export const patterns = {
      */
     letterSymbols: /^[A-Za-z]+([a-zA-Z.' -])*[a-zA-Z.' -]+$/,
     /**
-     * @regex /^(?!.*\s{2,})[\p{L}\s'.-]{2,50}$/u
-     * @description This pattern matches any string that contains 2-50 characters, starts and ends with valid characters (letters, whitespace, period, single quote, or hyphen).
+     * @regex /^(?!.*\s{2,})(?!\s)[\p{L}\s'.-]{1,50}(?<!\s)$/u
+     * @description This pattern matches any string that contains 1 to 50 characters, starts and ends with valid characters (letters, whitespace, period, single quote, or hyphen).
      * @example ValidationConstants.patterns.name.test("John Doe")
      * @example ValidationConstants.patterns.name.test("John-Doe")
      * @example ValidationConstants.patterns.name.test("John O'Doe")
      * @example ValidationConstants.patterns.name.test("John O. Doe")
      */
-    name: /^(?!.*\s{2,})[\p{L}\s'.-]{2,50}$/u,
+    name: /^(?!.*\s{2,})(?!\s)[\p{L}\s'.-]{1,50}(?<!\s)$/u,
     /**
      * @regex /[`~!@#$%^&*)(_=+[}{\]\\/";:?><|]+/
      * @description This pattern matches any string that contains any of these characters: `~!@#$%^&*)(_=+[}{\]\\/";:?><|
