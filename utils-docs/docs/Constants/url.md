@@ -27,6 +27,8 @@ derivComProduction = `https://${domain}`;
 derivComProductionEU = `https://eu.${domain}`;
 derivComStaging = `https://staging.${domain}`;
 derivHost = domain;
+derivP2pProduction = `https://p2p.${domain}`;
+derivP2pStaging = `https://staging-p2p.${domain}`;
 smartTraderProduction = `https://smarttrader.${domain}`;
 smartTraderStaging = `https://staging-smarttrader.${domain}`;
 ```
