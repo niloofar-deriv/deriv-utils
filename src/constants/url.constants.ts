@@ -18,6 +18,8 @@ export const derivComStaging = `https://staging.${domain}` as const;
 export const derivHost = domain;
 export const smartTraderProduction = `https://smarttrader.${domain}` as const;
 export const smartTraderStaging = `https://staging-smarttrader.${domain}` as const;
+export const derivP2pProduction = `https://p2p.${domain}` as const;
+export const derivP2pStaging = `https://staging-p2p.${domain}` as const;
 //
 
 export const whatsApp = "https://wa.me/35699578341";
