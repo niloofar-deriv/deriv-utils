@@ -23,6 +23,8 @@ demo: "blue.derivws.com";
 "staging-app.deriv.be": "31186";
 "binary.com": "1";
 "test-app.deriv.com": "51072";
+"p2p.deriv.com": "61859";
+"staging-p2p.deriv.com": "62019";
 ```
 
 ### appBrand
