@@ -1,7 +1,7 @@
-import { describe, test, expect, vitest, beforeEach } from "vitest";
+import { describe, test, expect, vitest, beforeEach, vi } from "vitest";
 import { URLUtils } from "../index";
-import { LocalStorageConstants } from "../..";
-import { isDomainAllowed, LoginInfo } from "../url.utils";
+import { LocalStorageUtils, LocalStorageConstants } from "../..";
+import { LoginInfo, isDomainAllowed } from "../url.utils";
 
 function setSearchParam(queryString: string) {
     Object.defineProperty(window, "location", {
@@ -14,7 +14,6 @@ function setSearchParam(queryString: string) {
 }
 
 beforeEach(() => {
-    window.localStorage.getItem = vitest.fn();
     setSearchParam("");
 });
 
@@ -177,7 +176,7 @@ describe("URLUtils.getServerURL", () => {
     });
 
     test("should prioritise user configured server url", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.configServerURL) {
                 return "user.defined.com";
             }
@@ -192,7 +191,7 @@ describe("URLUtils.getServerURL", () => {
     });
 
     test("should return green.derivws.com if user account is real", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.activeLoginid) {
                 return "CR10000043";
             }
@@ -204,7 +203,7 @@ describe("URLUtils.getServerURL", () => {
     });
 
     test("should return blue.derivws.com if user account is real", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.activeLoginid) {
                 return "VRTC1000067";
             }
@@ -218,7 +217,7 @@ describe("URLUtils.getServerURL", () => {
 
 describe("URLUtils.getOauthURL", () => {
     test("should return correct oauth url based on app id and language", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.i18nLanguage) {
                 return "AR";
             }
@@ -233,7 +232,7 @@ describe("URLUtils.getOauthURL", () => {
     });
 
     test("should fallback to EN if i18n_language localstorage key is not present", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.i18nLanguage) {
                 return null;
             }
@@ -242,6 +241,7 @@ describe("URLUtils.getOauthURL", () => {
             }
             return "";
         });
+
         const output = URLUtils.getOauthURL();
         expect(output).toBe("https://oauth.deriv.com/oauth2/authorize?app_id=420&l=EN&brand=deriv");
     });
@@ -249,7 +249,7 @@ describe("URLUtils.getOauthURL", () => {
 
 describe("URLUtils.getWebsocketURL", () => {
     test("should return correct websocket URL", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.configServerURL) {
                 return "ws.derivws.com";
             }
@@ -315,22 +315,41 @@ describe("URLUtils.normalizePath", () => {
 
 describe("URLUtils.getDerivStaticURL", () => {
     test("getDerivStaticURL with path and default language(en)", () => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
+            if (key === LocalStorageConstants.i18nLanguage) {
+                return "EN";
+            }
+            return null;
+        });
         const result = URLUtils.getDerivStaticURL("/p2p/");
         expect(result).toBe("https://deriv.com/p2p");
+        vi.restoreAllMocks();
     });
 
     test("getDerivStaticURL with path and Spanish language", () => {
-        localStorage.getItem = vitest.fn(() => "ES");
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
+            if (key === LocalStorageConstants.i18nLanguage) {
+                return "ES";
+            }
+            return null;
+        });
 
         const result = URLUtils.getDerivStaticURL("/p2p/");
         expect(result).toBe("https://deriv.com/es/p2p");
+        vi.restoreAllMocks();
     });
 
     test("getDerivStaticURL with path and language that contains '_'", () => {
-        localStorage.getItem = vitest.fn(() => "ZH_TW");
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
+            if (key === LocalStorageConstants.i18nLanguage) {
+                return "ZH_TW";
+            }
+            return null;
+        });
 
         const result = URLUtils.getDerivStaticURL("/p2p/");
         expect(result).toBe("https://deriv.com/zh-tw/p2p");
+        vi.restoreAllMocks();
     });
 
     test("getDerivStaticURL with path and isEU true", () => {
@@ -344,7 +363,6 @@ describe("URLUtils.getDerivStaticURL", () => {
     });
 
     test("getDerivStaticURL with path and isDocument true and Spanish language", () => {
-        localStorage.getItem = vitest.fn(() => "ES");
         const result = URLUtils.getDerivStaticURL("regulatory/deriv-com-ltd-membership.pdf", { isDocument: true });
         expect(result).toBe("https://deriv.com/regulatory/deriv-com-ltd-membership.pdf");
     });

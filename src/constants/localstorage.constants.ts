@@ -7,3 +7,5 @@ export const uiTheme = "ui.theme";
 export const uiShowReportsDrawer = "ui.show_report_drawer";
 export const uiExpandAccountSwitcher = "ui.expand_account_switcher";
 export const traderLayout = "trader.layout";
+export const p2pArchiveMessage = "should_not_show_auto_archive_message_again";
+export const p2pOrderIds = "order_ids";
