@@ -1,3 +1,4 @@
+import { LocalStorageUtils } from ".";
 import { LocalStorageConstants, AppIDConstants, URLConstants } from "../constants";
 import { QueryParameters } from "../constants/url.constants";
 import { getActiveLoginid, getAppId, getEnvironmentFromLoginid } from "./websocket.utils";
@@ -91,7 +92,7 @@ export const filterSearchParams = (searchParamsToRemove: string[]) => {
  * @returns {string} The constructed OAuth URL.
  */
 export const getOauthURL = () => {
-    const language = window.localStorage.getItem(LocalStorageConstants.i18nLanguage) ?? "EN";
+    const language = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage) ?? "EN";
 
     return `https://oauth.deriv.com/oauth2/authorize?app_id=${getAppId()}&l=${language}&brand=${
         AppIDConstants.appBrand
@@ -105,7 +106,7 @@ export const getOauthURL = () => {
  * @returns {string} The determined server URL.
  */
 export const getServerURL = () => {
-    const configServerURL = window.localStorage.getItem(LocalStorageConstants.configServerURL);
+    const configServerURL = LocalStorageUtils.getValue<string>(LocalStorageConstants.configServerURL);
     if (configServerURL) return configServerURL;
 
     const activeLoginid = getActiveLoginid();
@@ -120,8 +121,7 @@ export const getServerURL = () => {
  */
 export const getWebsocketURL = () => {
     const serverURL = getServerURL();
-    const language = window.localStorage.getItem(LocalStorageConstants.i18nLanguage) ?? "EN";
-
+    const language = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage) ?? "EN";
     return `wss://${serverURL}/websockets/v3?app_id=${getAppId()}&l=${language}&brand=${AppIDConstants.appBrand}`;
 };
 
@@ -168,7 +168,7 @@ type DerivStaticURLOptions = {
  */
 export const getDerivStaticURL = (path: string, options?: DerivStaticURLOptions) => {
     const host = options?.isEU ? URLConstants.derivComProductionEU : URLConstants.derivComProduction;
-    let lang = localStorage.getItem(LocalStorageConstants.i18nLanguage)?.toLowerCase() ?? "en";
+    let lang = LocalStorageUtils.getValue<string>(LocalStorageConstants.i18nLanguage)?.toLowerCase() ?? "en";
 
     lang = lang === "en" ? "" : `/${lang.replace("_", "-")}`;
 

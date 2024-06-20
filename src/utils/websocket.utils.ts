@@ -1,3 +1,4 @@
+import { LocalStorageUtils } from ".";
 import { LocalStorageConstants, AppIDConstants } from "../constants";
 
 /**
@@ -11,7 +12,7 @@ import { LocalStorageConstants, AppIDConstants } from "../constants";
 export const getActiveLoginid = () => {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const urlActiveLoginid = urlSearchParams.get("acct1");
-    return window.localStorage.getItem(LocalStorageConstants.activeLoginid) || urlActiveLoginid;
+    return LocalStorageUtils.getValue<string>(LocalStorageConstants.activeLoginid) || urlActiveLoginid;
 };
 
 /**
@@ -38,7 +39,7 @@ export const getEnvironmentFromLoginid = (loginid: string | null) => {
  * @returns {string} The application ID.
  */
 export const getAppId = () => {
-    const configAppId = window.localStorage.getItem(LocalStorageConstants.configAppId);
+    const configAppId = LocalStorageUtils.getValue<string>(LocalStorageConstants.configAppId);
     if (configAppId) return configAppId;
 
     const currentDomain = window.location.hostname;

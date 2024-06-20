@@ -1,5 +1,5 @@
-import { describe, test, expect, vitest, beforeEach } from "vitest";
-import { WebSocketUtils } from "..";
+import { describe, test, expect, beforeEach, vi } from "vitest";
+import { LocalStorageUtils, WebSocketUtils } from "..";
 import { LocalStorageConstants } from "../..";
 import { getEnvironmentFromLoginid } from "../websocket.utils";
 
@@ -15,7 +15,17 @@ function setLocation({ hostname = "", pathname = "", search = "" }) {
 }
 
 beforeEach(() => {
-    window.localStorage.getItem = vitest.fn();
+    vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
+        if (key === LocalStorageConstants.configServerURL) {
+            // Adjust the key as per your constant
+            return "user.defined.com";
+        }
+        if (key === LocalStorageConstants.activeLoginid) {
+            // Adjust the key as per your constant
+            return "VRTC1000067";
+        }
+        return null;
+    });
     setLocation({ hostname: "" });
 });
 
@@ -23,12 +33,20 @@ describe("WebSocketUtils.getActiveLoginid", () => {
     test("should return first loginid from query params (acct1) if peresent", () => {
         setLocation({ search: "?acct1=VRTC1069&token1=a1-xbczn&cur1=USD&acct2=CR1069&token2=a1-xbzn2&cur2=GBP" });
 
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
+            if (key === LocalStorageConstants.activeLoginid) {
+                // Adjust the key as per your constant
+                return "VRTC1069";
+            }
+            return null;
+        });
+
         const output = WebSocketUtils.getActiveLoginid();
         expect(output).toBe("VRTC1069");
     });
 
     test("should return loginid from the client.active_loginid localstorage key if present", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.activeLoginid) {
                 return "MF1000420";
             }
@@ -41,7 +59,7 @@ describe("WebSocketUtils.getActiveLoginid", () => {
 
     test("should prioritise value from client.active_loginid localstorage key instead of query params (acct1)", () => {
         setLocation({ search: "?acct1=VRTC1069&token1=a1-xbczn&cur1=USD&acct2=CR1069&token2=a1-xbzn2&cur2=GBP" });
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.activeLoginid) {
                 return "MF1000420";
             }
@@ -55,6 +73,12 @@ describe("WebSocketUtils.getActiveLoginid", () => {
     test("should return null if neither client.active_loginid or query params (acct1) is present", () => {
         setLocation({ search: "?acct2=CR1069&token2=a1-xbzn2&cur2=GBP" });
 
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
+            if (key === LocalStorageConstants.activeLoginid) {
+                return null;
+            }
+            return null;
+        });
         const output = WebSocketUtils.getActiveLoginid();
         expect(output).toBeNull();
     });
@@ -89,7 +113,7 @@ describe("WebSocketUtils.getEnvironmentFromLoginid", () => {
 
 describe("WebSocketUtils.getAppId", () => {
     test("should return app id from config.app_id localstorage key", () => {
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.configAppId) {
                 return "18883";
             }
@@ -123,7 +147,7 @@ describe("WebSocketUtils.getAppId", () => {
 
     test("should prioritise app id from config.app_id localstorage", () => {
         setLocation({ hostname: "test-app.deriv.com" });
-        window.localStorage.getItem = vitest.fn((key: string) => {
+        vi.spyOn(LocalStorageUtils, "getValue").mockImplementation((key: string) => {
             if (key === LocalStorageConstants.configAppId) {
                 return "36489";
             }
