@@ -39,3 +39,11 @@ uiExpandAccountSwitcher = "ui.expand_account_switcher";
 ```JS
 traderLayout = "trader.layout";
 ```
+
+```JS
+p2pArchiveMessage = "should_not_show_auto_archive_message_again";
+```
+
+```JS
+p2pArchiveOrder = "order_ids";
+```
