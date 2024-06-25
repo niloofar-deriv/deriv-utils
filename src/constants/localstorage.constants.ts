@@ -9,3 +9,4 @@ export const uiExpandAccountSwitcher = "ui.expand_account_switcher";
 export const traderLayout = "trader.layout";
 export const p2pArchiveMessage = "should_not_show_auto_archive_message_again";
 export const p2pOrderIds = "order_ids";
+export const p2pShowGuide = "should_show_p2p_guide";

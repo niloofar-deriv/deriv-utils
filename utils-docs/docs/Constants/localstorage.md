@@ -45,5 +45,9 @@ p2pArchiveMessage = "should_not_show_auto_archive_message_again";
 ```
 
 ```JS
-p2pArchiveOrder = "order_ids";
+p2pOrderIds = "order_ids";
+```
+
+```JS
+p2pShowGuide = "should_show_p2p_guide";
 ```
