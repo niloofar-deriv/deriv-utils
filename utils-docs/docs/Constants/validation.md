@@ -216,7 +216,7 @@ letterSymbols: /^[A-Za-z]+([a-zA-Z.' -])*[a-zA-Z.' -]+$/;
 
 ### name
 
-This pattern matches any string that contains **1-50** characters, starts and ends with valid characters (letters, whitespace, period, single quote, or hyphen) and can not be single space.
+This pattern matches any string that contains **1-50** characters, starts and ends with valid characters (letters, whitespace, period, single quote, or hyphen) and can not be single space or have two sequential spaces.
 
 ```JS
 // @example ValidationConstants.patterns.name.test("John Doe")
