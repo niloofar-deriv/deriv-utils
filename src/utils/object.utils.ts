@@ -27,8 +27,8 @@ export const hashObject = async <T extends object>(object: T) => {
     return hashedString;
 };
 
-type DeepPartial<T> = {
-    [P in keyof T]?: DeepPartial<T[P]>;
+type TSources<T> = {
+    [P in keyof T]?: TSources<T[P]>;
 };
 
 const replaceValue = <T>(value: T, newValue: T): T => {
@@ -46,7 +46,7 @@ const replaceValue = <T>(value: T, newValue: T): T => {
  * @param sources - The objects to merge into target
  * @returns The merged object
  */
-export const merge = <T>(target: T, ...sources: DeepPartial<T>[]): T => {
+export const merge = <T>(target: T, ...sources: TSources<T>[]): T => {
     for (const source of sources) {
         for (const key in source) {
             if (source[key] === null || source[key] === undefined) {
