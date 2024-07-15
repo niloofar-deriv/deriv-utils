@@ -75,3 +75,28 @@ describe("hashObject", () => {
         expect(output1).toEqual(output2);
     });
 });
+
+describe("merge", () => {
+    test("should merge two objects", () => {
+        const target = { a: 1, b: 2 };
+        const source = { b: 3, c: 4 };
+        const output = ObjectUtils.merge(target, source);
+        expect(output).toEqual({ a: 1, b: 3, c: 4 });
+    });
+
+    test("should merge nested objects", () => {
+        type Test = {
+            a: {
+                b?: string[] | null;
+                c?: number;
+                d?: number;
+            };
+        };
+
+        const target: Test = { a: { c: 2, b: null } };
+        const source1 = { a: { d: 4 } };
+        const source2 = { a: { b: ["apple", "bat"] } };
+        const output = ObjectUtils.merge(target, source1, source2);
+        expect(output).toEqual({ a: { b: ["apple", "bat"], c: 2, d: 4 } });
+    });
+});

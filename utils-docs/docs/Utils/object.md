@@ -21,3 +21,16 @@ It throws an error if the hashing operation fails or if the input is not a valid
 #### Options
 
 `object: T[required]` - The object to be hashed.
+
+### merge
+
+Deeply merges multiple source objects into a target object. It merges individual values excluding null and undefined. It concatenates arrays. recursively merges objects and directly assigns functions
+
+#### Options
+
+-   `target: T` - The target object to merge into.
+-   `sources: DeepPartial<T>[]` - One or more source objects to merge into the target.
+
+#### Returns
+
+-   `T` - The merged target object.
