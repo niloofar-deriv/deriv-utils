@@ -37,7 +37,7 @@ export const formatMoney = (number: number, options?: FormatMoneyOptions) => {
     try {
         const { locale = "en-US", currency, decimalPlaces } = options || {};
         const currencyPrecision = CurrencyConstants.precision[currency ?? "USD"];
-        const fractionDigits = decimalPlaces ?? currencyPrecision;
+        const fractionDigits = decimalPlaces || currencyPrecision;
         const formatter = new Intl.NumberFormat(locale, {
             minimumFractionDigits: fractionDigits,
             maximumFractionDigits: fractionDigits,
