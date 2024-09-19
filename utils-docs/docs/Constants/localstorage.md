@@ -51,3 +51,7 @@ p2pOrderIds = "order_ids";
 ```JS
 p2pShowGuide = "should_show_p2p_guide";
 ```
+
+```JS
+p2pShowFollowUserGuide = "should_show_p2p_follow_user_guide";
+```
