@@ -51,14 +51,15 @@ export const formatMoney = (number: number, options?: FormatMoneyOptions) => {
 /**
  * Converts and formats a given date input into a specified string format without usage of external libraries such as moment.js or date-fns.
  *
- * @param {Date | number | string} dateInput - The date to be formatted. Can be a Date object, Unix timestamp, or date string.
- * @param {Intl.DateTimeFormatOptions} [options] - Optional configuration for date formatting. Defaults to { day: "2-digit", month: "2-digit", year: "numeric" }.
- * @param {string} [format="YYYY-MM-DD"] - The desired output format. Supported formats: 'YYYY-MM-DD', 'DD MMM YYYY', 'MMM DD YYYY'.
+ * @param {Date | number | string} dateInput - The date to be formatted.
+ *   - Can be a Date object, Unix timestamp, or date string.
+ * @param {Intl.DateTimeFormatOptions} [options] - Optional configuration for date formatting.
+ *   - Defaults to { day: "2-digit", month: "2-digit", year: "numeric" }.
+ * @param {string} [format="YYYY-MM-DD"] - The desired output format.
+ *   - Supported formats: 'YYYY-MM-DD', 'DD MMM YYYY', 'MMM DD YYYY'.
  * @param {boolean} [unix=false] - If true, treats the numeric input as a Unix timestamp.
  *
  * @returns {string} A formatted date string according to the specified format.
- *
- * @throws {Error} If the date input is invalid.
  *
  * @example
  * // Returns date in 'YYYY-MM-DD' format
@@ -117,12 +118,11 @@ export const getFormattedDateString = (
 /**
  * Converts and formats a given date input into a time string in 'HH:mm:ss GMT' format without usage of external libraries such as moment.js or date-fns.
  *
- * @param {Date | number | string} dateInput - The date to be formatted. Can be a Date object, Unix timestamp, or date string.
+ * @param {Date | number | string} dateInput - The date to be formatted.
+ *   - Can be a Date object, Unix timestamp, or date string.
  * @param {boolean} [unix=false] - If true, treats the numeric input as a Unix timestamp.
  *
  * @returns {string} A formatted time string in 'HH:mm:ss GMT' format.
- *
- * @throws {Error} If the date input is invalid.
  *
  * @example
  * getFormattedTimeString(new Date('2023-05-15T14:30:00Z'));

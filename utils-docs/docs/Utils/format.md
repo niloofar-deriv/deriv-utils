@@ -61,10 +61,6 @@ Converts and formats a given date input into a specified string format. To be us
 
 A formatted date string according to the specified format.
 
-### Throws:
-
-Throws an error if the date input is invalid.
-
 ### Examples:
 
 ```js
@@ -91,10 +87,6 @@ Converts and formats a given date input into a time string in the `'HH:mm:ss GMT
 ### Returns:
 
 A formatted time string in the `'HH:mm:ss GMT'` format.
-
-### Throws:
-
-Throws an error if the date input is invalid.
 
 ### Examples:
 
@@ -132,9 +124,6 @@ getAdjustedDate(5, "days", "add");
 
 // Returns a Date object 2 years in the past
 getAdjustedDate(2, "years", "subtract");
-
-// Returns a Date object 10 days in the past
-getAdjustedDate(10, "days", "subtract");
 ```
 
 ---
@@ -158,7 +147,8 @@ An object containing:
 ### Example:
 
 ```js
-const longcode = "address: abc123def456ghi789jkl012mno345pqr678stu9, transaction: xyz123abc456def789ghi012jkl345mno678pqr901";
+const longcode =
+    "address: abc123def456ghi789jkl012mno345pqr678stu9, transaction: xyz123abc456def789ghi012jkl345mno678pqr901";
 const parsed = parseCryptoLongcode(longcode);
 
 console.log(parsed.addressHash); // "abc123def456ghi789jkl012mno345pqr678stu9"
