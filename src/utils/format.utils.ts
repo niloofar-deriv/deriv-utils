@@ -7,6 +7,12 @@ type FormatMoneyOptions = {
     locale?: string;
 };
 
+type GetFormattedDateStringOptions = {
+    dateOptions?: Intl.DateTimeFormatOptions;
+    format?: "YYYY-MM-DD" | "DD MMM YYYY" | "MMM DD YYYY";
+    unix?: boolean;
+};
+
 /**
  * Formats a given number into a monetary format that is human-readable, with options to customize
  * the currency, number of decimal places, and locale.
@@ -53,11 +59,10 @@ export const formatMoney = (number: number, options?: FormatMoneyOptions) => {
  *
  * @param {Date | number | string} dateInput - The date to be formatted.
  *   - Can be a Date object, Unix timestamp, or date string.
- * @param {Intl.DateTimeFormatOptions} [options] - Optional configuration for date formatting.
- *   - Defaults to { day: "2-digit", month: "2-digit", year: "numeric" }.
- * @param {string} [format="YYYY-MM-DD"] - The desired output format.
- *   - Supported formats: 'YYYY-MM-DD', 'DD MMM YYYY', 'MMM DD YYYY'.
- * @param {boolean} [unix=false] - If true, treats the numeric input as a Unix timestamp.
+ * @param {GetFormattedDateStringOptions} [options] - Optional configuration for date formatting, including:
+ *   - `dateOptions`: Intl.DateTimeFormatOptions to customize date formatting.
+ *   - `format`: The desired output format. Supported formats: 'YYYY-MM-DD', 'DD MMM YYYY', 'MMM DD YYYY'.
+ *   - `unix`: If true, treats numeric input as a Unix timestamp.
  *
  * @returns {string} A formatted date string according to the specified format.
  *
@@ -68,22 +73,33 @@ export const formatMoney = (number: number, options?: FormatMoneyOptions) => {
  *
  * @example
  * // Returns date in 'DD MMM YYYY' format
- * getFormattedDateString('2023-05-15', {}, 'DD MMM YYYY');
+ * getFormattedDateString('2023-05-15', { format: 'DD MMM YYYY' });
  * // => "15 May 2023"
+ *
+ * @example
+ * // Returns date in 'MMM DD YYYY' format with Unix timestamp
+ * getFormattedDateString(1684159800, { format: 'MMM DD YYYY', unix: true });
+ * // => "May 15 2023"
  */
 export const getFormattedDateString = (
     dateInput: Date | number | string,
-    options: Intl.DateTimeFormatOptions = { day: "2-digit", month: "2-digit", year: "numeric" },
-    format = "YYYY-MM-DD",
-    unix = false,
+    options?: GetFormattedDateStringOptions,
 ): string => {
     let dateObj: Date;
-    const dateOptions: Intl.DateTimeFormatOptions = { ...options };
+    const {
+        dateOptions = { day: "2-digit", month: "2-digit", year: "numeric" },
+        format = "YYYY-MM-DD",
+        unix = false,
+    } = options || {};
+    const formattedDateOptions: Intl.DateTimeFormatOptions = { ...dateOptions };
 
     if (typeof dateInput === "number" && unix) {
         dateObj = new Date(dateInput * 1000);
     } else if (typeof dateInput === "string" || dateInput instanceof Date) {
         dateObj = new Date(dateInput);
+        if (isNaN(dateObj.getTime())) {
+            throw new Error("Invalid date input");
+        }
     } else {
         throw new Error("Invalid date input");
     }
@@ -91,28 +107,29 @@ export const getFormattedDateString = (
     // Custom handling for different input formats
     switch (format) {
         case "DD MMM YYYY":
-            dateOptions.day = "2-digit";
-            dateOptions.month = "short";
-            dateOptions.year = "numeric";
+            formattedDateOptions.day = "2-digit";
+            formattedDateOptions.month = "short";
+            formattedDateOptions.year = "numeric";
             break;
         case "MMM DD YYYY":
-            dateOptions.day = "2-digit";
-            dateOptions.month = "short";
-            dateOptions.year = "numeric";
-            return dateObj.toLocaleDateString("en-GB", dateOptions).replace(/(\d{2}) (\w{3}) (\d{4})/, "$2 $1 $3");
+            formattedDateOptions.day = "2-digit";
+            formattedDateOptions.month = "short";
+            formattedDateOptions.year = "numeric";
+            return dateObj
+                .toLocaleDateString("en-GB", formattedDateOptions)
+                .replace(/(\d{2}) (\w{3}) (\d{4})/, "$2 $1 $3");
         default:
-            dateOptions.year = "numeric";
-            dateOptions.month = "2-digit";
-            dateOptions.day = "2-digit";
+            formattedDateOptions.year = "numeric";
+            formattedDateOptions.month = "2-digit";
+            formattedDateOptions.day = "2-digit";
             break;
     }
 
     const formattedDate = dateObj
-        .toLocaleDateString("en-GB", dateOptions)
+        .toLocaleDateString("en-GB", formattedDateOptions)
         .replace(/(\d{2}) (\w{3,4}) (\d{4})/, (_, day, month, year) => `${day} ${month.slice(0, 3)} ${year}`);
-    return format === "DD MMM YYYY" || format === "MMM DD YYYY"
-        ? formattedDate
-        : formattedDate.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3-$2-$1");
+
+    return format === "YYYY-MM-DD" ? formattedDate.replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$3-$2-$1") : formattedDate;
 };
 
 /**
@@ -139,6 +156,9 @@ export const getFormattedTimeString = (dateInput: Date | number | string, unix =
         dateObj = new Date(dateInput * 1000);
     } else if (typeof dateInput === "string" || dateInput instanceof Date) {
         dateObj = new Date(dateInput);
+        if (isNaN(dateObj.getTime())) {
+            throw new Error("Invalid date input");
+        }
     } else {
         throw new Error("Invalid date input");
     }
@@ -177,6 +197,8 @@ export const getAdjustedDate = (
     type: "days" | "years" = "days",
     operation: "add" | "subtract" = "add",
 ): Date => {
+    if (amount < 0) throw new Error("Amount must be a positive number.");
+
     const date = new Date();
     const adjustedAmount = operation === "add" ? amount : -amount;
 
@@ -199,6 +221,14 @@ export const getAdjustedDate = (
  *   - blockchainHash: The extracted blockchain hash.
  *   - splitLongcode: An array of the longcode split by commas.
  *
+ * @example
+ * parseCryptoLongcode("address: abc123def456ghi789jkl, transaction: xyz123abc456def789ghi")
+ * =>
+ * {
+ *   addressHash: "abc123def456ghi789jkl",
+ *   blockchainHash: "xyz123abc456def789ghi",
+ *   splitLongcode: ["address: abc123def456ghi789jkl", "transaction: xyz123abc456def789ghi"]
+ * }
  */
 export const parseCryptoLongcode = (longcode: string) => {
     const splitLongcode = longcode.split(/,\s/);

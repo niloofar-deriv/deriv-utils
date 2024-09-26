@@ -54,19 +54,19 @@ describe("FormatUtils.getFormattedDateString", () => {
 
     test('formats date string in "DD MMM YYYY" format', () => {
         const dateString = "2023-05-15T12:00:00Z";
-        const formattedDate = getFormattedDateString(dateString, undefined, "DD MMM YYYY");
+        const formattedDate = getFormattedDateString(dateString, { format: "DD MMM YYYY" });
         expect(formattedDate).toBe("15 May 2023");
     });
 
     test('formats date string in "MMM DD YYYY" format', () => {
         const dateString = "2023-05-15T12:00:00Z";
-        const formattedDate = getFormattedDateString(dateString, undefined, "MMM DD YYYY");
+        const formattedDate = getFormattedDateString(dateString, { format: "MMM DD YYYY" });
         expect(formattedDate).toBe("May 15 2023");
     });
 
     test("handles Unix timestamp", () => {
         const unixTimestamp = 1684152000; // 2023-05-15T12:00:00Z
-        const formattedDate = getFormattedDateString(unixTimestamp, undefined, "YYYY-MM-DD", true);
+        const formattedDate = getFormattedDateString(unixTimestamp, { format: "YYYY-MM-DD", unix: true });
         expect(formattedDate).toBe("2023-05-15");
     });
 

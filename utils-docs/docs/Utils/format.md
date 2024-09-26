@@ -53,9 +53,11 @@ Converts and formats a given date input into a specified string format. To be us
 #### Options
 
 -   `dateInput: Date | number | string [required]` - The date to be formatted. Can be a Date object, Unix timestamp, or a date string.
--   `options: Intl.DateTimeFormatOptions [optional]` - Optional configuration for date formatting. Defaults to `{ day: "2-digit", month: "2-digit", year: "numeric" }`.
--   `format: string [optional]` - The desired output format. Supported formats: `'YYYY-MM-DD'`, `'DD MMM YYYY'`, `'MMM DD YYYY'`. Defaults to `'YYYY-MM-DD'`.
--   `unix: boolean [optional]` - If `true`, treats the numeric input as a Unix timestamp.
+    `GetFormattedDateStringOptions [optional]` - Optional configuration for formatting the date value, including:
+
+-   **dateOptions: [Intl.DateTimeFormatOptions-optional]**: - Optional configuration for date formatting. Defaults to `{ day: "2-digit", month: "2-digit", year: "numeric" }`.
+-   **format: [string-optional]**: The desired output format. Supported formats: `'YYYY-MM-DD'`, `'DD MMM YYYY'`, `'MMM DD YYYY'`. Defaults to `'YYYY-MM-DD'`.
+-   **unix: [boolean-optional]**: If `true`, treats the numeric input as a Unix timestamp.
 
 ### Returns:
 
@@ -69,7 +71,7 @@ getFormattedDateString(new Date("2023-05-15"));
 // => "2023-05-15"
 
 // Returns date in 'DD MMM YYYY' format
-getFormattedDateString("2023-05-15", {}, "DD MMM YYYY");
+getFormattedDateString("2023-05-15", { format: "DD MMM YYYY" });
 // => "15 May 2023"
 ```
 
