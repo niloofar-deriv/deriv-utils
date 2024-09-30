@@ -56,7 +56,7 @@ Converts and formats a given date input into a specified string format. To be us
     `GetFormattedDateStringOptions [optional]` - Optional configuration for formatting the date value, including:
 
 -   **dateOptions: [Intl.DateTimeFormatOptions-optional]**: - Optional configuration for date formatting. Defaults to `{ day: "2-digit", month: "2-digit", year: "numeric" }`.
--   **format: [string-optional]**: The desired output format. Supported formats: `'YYYY-MM-DD'`, `'DD MMM YYYY'`, `'MMM DD YYYY'`. Defaults to `'YYYY-MM-DD'`.
+-   **format: [string-optional]**: The desired output format. Supported formats: `'YYYY-MM-DD'`, `'DD MMM YYYY'`, `'MMM DD YYYY'`, `'DD-MM-YYYY'`. Defaults to `'YYYY-MM-DD'`.
 -   **unix: [boolean-optional]**: If `true`, treats the numeric input as a Unix timestamp.
 
 ### Returns:
