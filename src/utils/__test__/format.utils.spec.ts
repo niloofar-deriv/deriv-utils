@@ -52,6 +52,12 @@ describe("FormatUtils.getFormattedDateString", () => {
         expect(formattedDate).toBe("2023-05-15");
     });
 
+    test('formats date string in "DD-MM-YYYY" format', () => {
+        const dateString = "2023-05-15T12:00:00Z";
+        const formattedDate = getFormattedDateString(dateString, { format: "DD-MM-YYYY" });
+        expect(formattedDate).toBe("15-05-2023");
+    });
+
     test('formats date string in "DD MMM YYYY" format', () => {
         const dateString = "2023-05-15T12:00:00Z";
         const formattedDate = getFormattedDateString(dateString, { format: "DD MMM YYYY" });

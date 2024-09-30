@@ -9,7 +9,7 @@ type FormatMoneyOptions = {
 
 type GetFormattedDateStringOptions = {
     dateOptions?: Intl.DateTimeFormatOptions;
-    format?: "YYYY-MM-DD" | "DD MMM YYYY" | "MMM DD YYYY";
+    format?: "DD MMM YYYY" | "DD-MM-YYYY" | "MMM DD YYYY" | "YYYY-MM-DD";
     unix?: boolean;
 };
 
@@ -61,7 +61,7 @@ export const formatMoney = (number: number, options?: FormatMoneyOptions) => {
  *   - Can be a Date object, Unix timestamp, or date string.
  * @param {GetFormattedDateStringOptions} [options] - Optional configuration for date formatting, including:
  *   - `dateOptions`: Intl.DateTimeFormatOptions to customize date formatting.
- *   - `format`: The desired output format. Supported formats: 'YYYY-MM-DD', 'DD MMM YYYY', 'MMM DD YYYY'.
+ *   - `format`: The desired output format. Supported formats: 'YYYY-MM-DD', 'DD-MM-YYYY', 'DD MMM YYYY', 'MMM DD YYYY'.
  *   - `unix`: If true, treats numeric input as a Unix timestamp.
  *
  * @returns {string} A formatted date string according to the specified format.
@@ -118,6 +118,13 @@ export const getFormattedDateString = (
             return dateObj
                 .toLocaleDateString("en-GB", formattedDateOptions)
                 .replace(/(\d{2}) (\w{3}) (\d{4})/, "$2 $1 $3");
+        case "DD-MM-YYYY":
+            formattedDateOptions.day = "2-digit";
+            formattedDateOptions.month = "2-digit";
+            formattedDateOptions.year = "numeric";
+            return dateObj
+                .toLocaleDateString("en-GB", formattedDateOptions)
+                .replace(/(\d{2})\/(\d{2})\/(\d{4})/, "$1-$2-$3");
         default:
             formattedDateOptions.year = "numeric";
             formattedDateOptions.month = "2-digit";
