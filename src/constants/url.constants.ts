@@ -29,4 +29,6 @@ export const queryParameters = {
     action: "action",
 } as const;
 
+export const cloudflareTrace = "https://www.cloudflare.com/cdn-cgi/trace";
+
 export type QueryParameters = keyof typeof queryParameters;
