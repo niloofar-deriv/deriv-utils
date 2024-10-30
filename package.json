@@ -63,13 +63,11 @@
         "eslint-plugin-promise": "^6.1.1",
         "happy-dom": "^13.3.8",
         "husky": "^9.0.11",
+        "js-cookie": "^3.0.5",
         "prettier": "3.2.5",
         "typescript": "^5.3.3",
         "vite": "^5.1.2",
         "vite-plugin-dts": "^3.7.2",
         "vitest": "^1.2.2"
-    },
-    "dependencies": {
-        "js-cookie": "^3.0.5"
     }
 }
