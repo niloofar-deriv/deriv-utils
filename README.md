@@ -24,6 +24,7 @@ This library is divided into two main namespaces:
     -   `PromiseUtils`: Includes utilities for handling promises, such as timeout wrappers and promise chaining helpers.
     -   `URLUtils`: Contains functions for manipulating URLs, including parameter extraction, URL construction, and query string manipulation.
     -   `WebSocketUtils`: Encapsulates utilities specific to the Deriv WebSocket, addressing environment detection, login ID retrieval, and app ID management.
+    -   `CountryUtils`: A utility for retrieving and managing the client's country and related data.
 
 ## Getting Started
 

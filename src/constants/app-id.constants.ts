@@ -18,7 +18,7 @@ export const domainAppId = {
     "api.deriv.com": "36544",
     "staging-api.deriv.com": "36545",
     "smarttrader.deriv.com": "22168",
-    "staging-smarttrader.deriv.com": "22169"
+    "staging-smarttrader.deriv.com": "22169",
 } as const;
 
 export const appBrand = "deriv";

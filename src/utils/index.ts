@@ -7,6 +7,7 @@ import * as URLUtils from "./url.utils";
 import * as WebSocketUtils from "./websocket.utils";
 import * as BrandUtils from "./brand.utils";
 import * as OSDetectionUtils from "./os-detect.utils";
+import * as CountryUtils from "./country.utils";
 
 export {
     ImageUtils,
@@ -18,4 +19,5 @@ export {
     WebSocketUtils,
     BrandUtils,
     OSDetectionUtils,
+    CountryUtils,
 };
