@@ -25,7 +25,6 @@ describe("getCountry", () => {
         vi.resetModules();
 
         (global.fetch as Mock).mockRejectedValueOnce(new Error("Network error"));
-        // Mock cookie value as a JSON string
         (Cookies.get as Mock).mockReturnValue(JSON.stringify({ clients_country: "fr" }));
 
         const { getCountry } = await import("../country.utils");
