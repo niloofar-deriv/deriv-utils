@@ -36,7 +36,7 @@ export const getCountry = async (): Promise<string> => {
             const data: TraceData = entries.length ? Object.fromEntries(entries) : {};
             return data.loc?.toLowerCase() || JSON.parse(Cookies.get("website_status") || "{}")?.clients_country || "";
         } catch (error) {
-            return JSON.parse(Cookies.get("website_status") || "{}")?.clients_country?.toLowerCase() || "";
+            return JSON.parse(Cookies.get("website_status") || "{}")?.clients_country?.toLowerCase() || "error";
         }
     })();
 
