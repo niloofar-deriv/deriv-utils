@@ -20,23 +20,22 @@ let countryPromise: Promise<string> | null = null;
  */
 
 export const getCountry = async (): Promise<string> => {
-    if (countryPromise) {
-        return countryPromise;
-    }
+    if (countryPromise) return countryPromise;
+
+    const cookieCountry = JSON.parse(Cookies.get("website_status") || "{}")?.clients_country;
 
     countryPromise = (async () => {
         try {
             const response = await fetch(cloudflareTrace).catch(() => null);
-            if (!response) {
-                return JSON.parse(Cookies.get("website_status") || "{}")?.clients_country || "";
-            }
+            if (!response) return cookieCountry || "nodata";
 
             const text = await response.text().catch(() => "");
-            const entries = text ? text.split("\n").map((v) => v.split("=", 2)) : [];
-            const data: TraceData = entries.length ? Object.fromEntries(entries) : {};
-            return data.loc?.toLowerCase() || JSON.parse(Cookies.get("website_status") || "{}")?.clients_country || "";
-        } catch (error) {
-            return JSON.parse(Cookies.get("website_status") || "{}")?.clients_country?.toLowerCase() || "error";
+            if (!text) return cookieCountry || "nodata";
+
+            const data: TraceData = Object.fromEntries(text.split("\n").map((v) => v.split("=", 2)));
+            return data.loc?.toLowerCase() || cookieCountry || "nodata";
+        } catch {
+            return cookieCountry || "error";
         }
     })();
 
