@@ -27,15 +27,15 @@ export const getCountry = async (): Promise<string> => {
     countryPromise = (async () => {
         try {
             const response = await fetch(cloudflareTrace).catch(() => null);
-            if (!response) return cookieCountry || "nodata";
+            if (!response) return cookieCountry || "";
 
             const text = await response.text().catch(() => "");
-            if (!text) return cookieCountry || "nodata";
+            if (!text) return cookieCountry || "";
 
             const data: TraceData = Object.fromEntries(text.split("\n").map((v) => v.split("=", 2)));
-            return data.loc?.toLowerCase() || cookieCountry || "nodata";
+            return data.loc?.toLowerCase() || cookieCountry || "";
         } catch {
-            return cookieCountry || "error";
+            return cookieCountry || "";
         }
     })();
 

@@ -39,6 +39,6 @@ describe("getCountry", () => {
         (Cookies.get as Mock).mockReturnValue(JSON.stringify({}));
         const { getCountry } = await import("../country.utils");
         const result = await getCountry();
-        expect(result).toBe("");
+        expect(result).toBe("nodata");
     });
 });
