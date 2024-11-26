@@ -3,13 +3,12 @@ import { LocalStorageUtils } from "..";
 import { LocalStorageConstants } from "../..";
 
 beforeEach(() => {
-
-    Object.defineProperty(window, 'localStorage', {
+    Object.defineProperty(window, "localStorage", {
         value: {
             getItem: vitest.fn(),
             setItem: vitest.fn(),
         },
-        writable: true
+        writable: true,
     });
 });
 
