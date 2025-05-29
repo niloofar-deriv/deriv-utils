@@ -49,7 +49,7 @@ This pattern matches any string that contains up to **100** characters composed 
 ```JS
 // @example ValidationConstants.patterns.addressState.test("New York")
 // @example ValidationConstants.patterns.addressState.test("Québec")
-addressState: /^[\p{L}\p{Nd}\s'.,-;\[\]\(\)\$]{0,100}$/u,
+addressState: /^[\p{L}\p{Nd}\s'.,-;\[\]\(\)]{0,100}$/u,
 ```
 
 ### barrier
