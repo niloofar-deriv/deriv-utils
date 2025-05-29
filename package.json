@@ -54,8 +54,8 @@
         "@types/js-cookie": "^3.0.6",
         "@types/node": "^20.11.18",
         "@typescript-eslint/eslint-plugin": "^6.21.0",
-        "@vitest/coverage-istanbul": "^1.2.2",
-        "@vitest/coverage-v8": "^1.2.2",
+        "@vitest/coverage-istanbul": "^1.6.1",
+        "@vitest/coverage-v8": "^1.6.1",
         "eslint": "^8.57.0",
         "eslint-config-prettier": "^9.1.0",
         "eslint-config-standard-with-typescript": "^43.0.1",
@@ -69,6 +69,6 @@
         "typescript": "^5.3.3",
         "vite": "^5.1.2",
         "vite-plugin-dts": "^3.7.2",
-        "vitest": "^1.2.2"
+        "vitest": "^1.6.1"
     }
 }
