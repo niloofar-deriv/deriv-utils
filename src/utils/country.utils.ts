@@ -4,6 +4,7 @@ import { cloudflareTrace } from "../constants/url.constants";
 type TraceData = {
     loc?: string;
 };
+let countryPromise: Promise<string> | null = null;
 
 /**
  * Fetches the country information based on Cloudflare's trace data or a fallback from cookies.
@@ -19,14 +20,24 @@ type TraceData = {
  */
 
 export const getCountry = async (): Promise<string> => {
-    try {
-        const response = await fetch(cloudflareTrace).catch(() => null);
-        if (!response) return "";
-        const text = await response.text().catch(() => "");
-        const entries = text ? text.split("\n").map((v) => v.split("=", 2)) : [];
-        const data: TraceData = entries.length ? Object.fromEntries(entries) : {};
-        return data.loc?.toLowerCase() || JSON.parse(Cookies.get("website_status") || "{}")?.loc || "";
-    } catch (error) {
-        return "";
-    }
+    if (countryPromise) return countryPromise;
+
+    const cookieCountry = JSON.parse(Cookies.get("website_status") || "{}")?.clients_country;
+
+    countryPromise = (async () => {
+        try {
+            const response = await fetch(cloudflareTrace).catch(() => null);
+            if (!response) return cookieCountry || "";
+
+            const text = await response.text().catch(() => "");
+            if (!text) return cookieCountry || "";
+
+            const data: TraceData = Object.fromEntries(text.split("\n").map((v) => v.split("=", 2)));
+            return data.loc?.toLowerCase() || cookieCountry || "";
+        } catch {
+            return cookieCountry || "";
+        }
+    })();
+
+    return countryPromise;
 };

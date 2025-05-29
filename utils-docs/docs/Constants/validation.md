@@ -44,12 +44,12 @@ addressCity: /^\p{L}[\p{L}\s'.-]{0,49}$/u;
 
 ### addressState
 
-This pattern matches any string that contains up to **100** characters composed of Unicode letters, Unicode digits, whitespace characters, apostrophes, periods, commas, hyphens, and semicolons `( '.,-;)`.
+This pattern matches any string that contains up to **100** characters composed of Unicode letters, Unicode digits, whitespace characters, apostrophes, periods, commas, hyphens, brackets, and semicolons `( '.,-();)`.
 
 ```JS
 // @example ValidationConstants.patterns.addressState.test("New York")
 // @example ValidationConstants.patterns.addressState.test("Québec")
-addressState: /^[\p{L}\p{Nd}\s'.,-;]{0,100}$/u,
+addressState: /^[\p{L}\p{Nd}\s'.,-;\[\]\(\)]{0,100}$/u,
 ```
 
 ### barrier

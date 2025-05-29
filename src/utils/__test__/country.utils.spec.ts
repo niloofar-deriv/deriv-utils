@@ -1,38 +1,44 @@
-import { describe, beforeEach, afterEach, it, expect, vi } from "vitest";
+import { describe, beforeEach, it, expect, vi, Mock } from "vitest";
 import { getCountry } from "../country.utils";
+import Cookies from "js-cookie";
+
+vi.mock("js-cookie");
+global.fetch = vi.fn();
 
 describe("getCountry", () => {
     beforeEach(() => {
-        global.fetch = vi.fn();
+        vi.clearAllMocks();
+        vi.resetModules();
     });
 
-    afterEach(() => {
-        vi.resetAllMocks();
-    });
-
-    it("should return the country code in lowercase when available", async () => {
-        // Mock fetch response
-        (global.fetch as vi.Mock).mockResolvedValue({
-            text: async () => "loc=US\nother=info\n",
+    it("should return country code from Cloudflare trace", async () => {
+        (global.fetch as Mock).mockResolvedValueOnce({
+            text: () => Promise.resolve("loc=US\nother=value"),
         });
 
-        const country = await getCountry();
-        expect(country).toBe("us");
+        const result = await getCountry();
+        expect(result).toBe("us");
     });
 
-    it("should return an empty string if the loc field is not present", async () => {
-        (global.fetch as vi.Mock).mockResolvedValue({
-            text: async () => "other=info\n",
-        });
+    it("should return country code from cookie when Cloudflare fails", async () => {
+        vi.clearAllMocks();
+        vi.resetModules();
 
-        const country = await getCountry();
-        expect(country).toBe("");
+        (global.fetch as Mock).mockRejectedValueOnce(new Error("Network error"));
+        (Cookies.get as Mock).mockReturnValue(JSON.stringify({ clients_country: "fr" }));
+
+        const { getCountry } = await import("../country.utils");
+        const result = await getCountry();
+        expect(result).toBe("fr");
     });
 
-    it("should return an empty string if the fetch fails", async () => {
-        (global.fetch as vi.Mock).mockRejectedValue(new Error("Fetch failed"));
-
-        const country = await getCountry();
-        expect(country).toBe("");
+    it("should return empty string if no country data is available", async () => {
+        vi.clearAllMocks();
+        vi.resetModules();
+        (global.fetch as Mock).mockRejectedValueOnce(new Error("Network error"));
+        (Cookies.get as Mock).mockReturnValue(JSON.stringify({}));
+        const { getCountry } = await import("../country.utils");
+        const result = await getCountry();
+        expect(result).toBe("");
     });
 });
