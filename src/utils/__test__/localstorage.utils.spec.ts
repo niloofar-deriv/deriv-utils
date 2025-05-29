@@ -3,8 +3,13 @@ import { LocalStorageUtils } from "..";
 import { LocalStorageConstants } from "../..";
 
 beforeEach(() => {
-    window.localStorage.getItem = vitest.fn();
-    window.localStorage.setItem = vitest.fn();
+    Object.defineProperty(window, "localStorage", {
+        value: {
+            getItem: vitest.fn(),
+            setItem: vitest.fn(),
+        },
+        writable: true,
+    });
 });
 
 describe("LocalStorageUtils.getValue", () => {

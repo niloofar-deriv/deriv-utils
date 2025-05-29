@@ -19,6 +19,12 @@ export const domainAppId = {
     "staging-api.deriv.com": "36545",
     "smarttrader.deriv.com": "22168",
     "staging-smarttrader.deriv.com": "22169",
+    "staging-dbot.deriv.com": "29934",
+    "staging-dbot.deriv.me": "29934",
+    "staging-dbot.deriv.be": "29934",
+    "dbot.deriv.com": "65555",
+    "dbot.deriv.be": "65556",
+    "dbot.deriv.me": "65557",
 } as const;
 
 export const appBrand = "deriv";
