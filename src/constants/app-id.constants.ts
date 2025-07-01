@@ -14,6 +14,8 @@ export const domainAppId = {
     "binary.com": "1",
     "test-app.deriv.com": "51072",
     "p2p.deriv.com": "61859",
+    "p2p.deriv.be": "71265",
+    "p2p.deriv.me": "71263",
     "staging-p2p.deriv.com": "62019",
     "api.deriv.com": "36544",
     "staging-api.deriv.com": "36545",
