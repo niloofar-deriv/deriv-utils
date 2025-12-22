@@ -68,13 +68,10 @@
         "happy-dom": "^20.0.11",
         "husky": "^9.0.11",
         "prettier": "3.2.5",
-        "semantic-release": "^21.1.2",
+        "semantic-release": "^25.0.2",
         "typescript": "^5.3.3",
         "vite": "^7.0.6",
         "vite-plugin-dts": "^4.5.4",
         "vitest": "^3.2.4"
-    },
-    "overrides": {
-        "glob": "^10.5.0"
     }
 }
