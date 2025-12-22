@@ -33,12 +33,12 @@ jobs:
             - name: Build docs
               run: cd utils-docs && npm run build
 
-            - name: Publish Docs to Cloudflare Pages
-              uses: "deriv-com/shared-actions/.github/actions/publish_to_pages_branch@master"
-              with:
-                CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-                CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-                project_name: deriv-utils
-                output_dir: ./utils-docs/build
-                branch_name: master
-                cname_url: deriv-utils.pages.dev
+            # - name: Publish Docs to Cloudflare Pages
+            #   uses: "deriv-com/shared-actions/.github/actions/publish_to_pages_branch@master"
+            #   with:
+            #     CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+            #     CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+            #     project_name: deriv-utils
+            #     output_dir: ./utils-docs/build
+            #     branch_name: master
+            #     cname_url: deriv-utils.pages.dev
