@@ -154,13 +154,18 @@ const customTransform = (commit, context) => {
     if (transformedCommit.notes) {
         transformedCommit.notes = transformedCommit.notes.map((note) => ({
             ...note,
-            title: "Breaking changes"
+            title: "Breaking changes",
         }));
     }
 
-    if (types.types[transformedCommit.type] && (types.types[transformedCommit.type].changelog || (transformedCommit.notes && transformedCommit.notes.length > 0))) {
-        transformedCommit.type = `${types.types[transformedCommit.type].emoji ? types.types[transformedCommit.type].emoji : ""} \t ${types.types[transformedCommit.type].title
-            }`;
+    if (
+        types.types[transformedCommit.type] &&
+        (types.types[transformedCommit.type].changelog ||
+            (transformedCommit.notes && transformedCommit.notes.length > 0))
+    ) {
+        transformedCommit.type = `${types.types[transformedCommit.type].emoji ? types.types[transformedCommit.type].emoji : ""} \t ${
+            types.types[transformedCommit.type].title
+        }`;
     } else {
         return null;
     }
@@ -189,7 +194,10 @@ const customTransform = (commit, context) => {
 
         if (context.host) {
             // User URLs.
-            transformedCommit.subject = transformedCommit.subject.replace(/\B@([a-z0-9](?:-?[a-z0-9]){0,38})/g, `[@$1](${context.host}/$1)`);
+            transformedCommit.subject = transformedCommit.subject.replace(
+                /\B@([a-z0-9](?:-?[a-z0-9]){0,38})/g,
+                `[@$1](${context.host}/$1)`,
+            );
         }
     }
 
