@@ -14,9 +14,9 @@ Compress an image and return it as a Blob by utilizing a Promise that resolves w
 - `filename[required]: string` - The desired filename for the compressed image.
 - `options[optional]: {maxWidth?: number; quality?: number;}` - Options for image compression.
 
-            -- **maxWidth [default: 2560]** The maximum width for the compressed image.
+              -- **maxWidth [default: 2560]** The maximum width for the compressed image.
 
-            -- **quality [default: 0.9]** - The image quality (0 to 1) for compression.
+              -- **quality [default: 0.9]** - The image quality (0 to 1) for compression.
 
 ### convertToBase64
 
